@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silobreaker Case Study | Vlad Vamos</title>
+    <meta name="description" content="How I built a design system for a 20-year-old intelligence platform. 2x faster design velocity, 100% team adoption.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Silobreaker Case Study | Vlad Vamos">
+    <meta property="og:description" content="Building a design system for a 20-year-old intelligence platform. 2x faster design, 100% adoption.">
+    <meta property="og:image" content="Silobreaker Dashboard.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Silobreaker Case Study | Vlad Vamos">
+    <meta name="twitter:description" content="Building a design system for a 20-year-old intelligence platform.">
+
+    <link rel="icon" type="image/svg+xml" href="../V.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        /* ============================================
+           SILOBREAKER PAGE-SPECIFIC OVERRIDES
+           ============================================ */
+
+        /* Silobreaker uses cyan accent (#0EA5E9) */
+        :root {
+            --color-accent: #0EA5E9;
+            --color-link: #0077cc;
+            --toggle-icon: #0EA5E9;
+            --header-bg: rgba(245, 245, 248, 0.9);
+        }
+
+        [data-theme="dark"] {
+            --color-accent: #0EA5E9;
+            --color-link: #4db8ff;
+            --header-bg: rgba(15, 15, 20, 0.9);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --color-accent: #0EA5E9;
+                --color-link: #4db8ff;
+                --header-bg: rgba(15, 15, 20, 0.9);
+            }
+        }
+
+        /* Learning item number gradient - Silobreaker cyan */
+        .learning-item__number {
+            background: linear-gradient(135deg, #06B6D4 0%, #0EA5E9 100%);
+        }
+
+        /* Role card icon gradient - Silobreaker cyan */
+        .role-card__icon {
+            background: linear-gradient(135deg, #06B6D4 0%, #0EA5E9 100%);
+        }
+
+        /* Before / After Comparison */
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 0 0 24px 0;
+        }
+
+        .before-after:first-of-type {
+            margin-top: 40px;
+        }
+
+        .before-after__panel {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+        }
+
+        .before-after__label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .before-after__label--before {
+            color: var(--color-text-secondary);
+        }
+
+        .before-after__label--after {
+            color: var(--color-accent);
+        }
+
+        .before-after__label-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .before-after__label--before .before-after__label-dot {
+            background: var(--color-text-secondary);
+            opacity: 0.4;
+        }
+
+        .before-after__label--after .before-after__label-dot {
+            background: var(--color-accent);
+        }
+
+        .before-after__image {
+            width: 100%;
+            display: block;
+            cursor: pointer;
+        }
+
+        @media (max-width: 700px) {
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-toggle__button" id="theme-toggle" aria-label="Toggle dark mode">
+            <span class="theme-toggle__knob">
+                <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </span>
+        </button>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox__content">
+            <button class="lightbox__close" onclick="closeLightbox()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <button class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" onclick="navigateLightbox(-1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            <button class="lightbox__nav lightbox__nav--next" id="lightbox-next" onclick="navigateLightbox(1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+            <img src="" alt="" class="lightbox__img" id="lightbox-img">
+            <p class="lightbox__caption" id="lightbox-caption"></p>
+            <p class="lightbox__counter" id="lightbox-counter"></p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="header__back">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                    Back to portfolio
+                </a>
+                <nav class="header__nav">
+                    <a href="mailto:vladvamos98@gmail.com" class="header__link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero__grid">
+                    <div class="hero__content">
+                        <div class="hero__badge">
+                            <span class="hero__badge-dot"></span>
+                            Currently working here
+                        </div>
+                        <h1 class="hero__title">Building Ymir: A Design System for a 20-Year-Old Intelligence Company</h1>
+                        <p class="hero__subtitle">
+                            I joined Silobreaker in June 2024 as a Product Designer. Over 8 months, I helped build a design system that improved workflows across the product team. The platform now has a consistent, accessible foundation.
+                        </p>
+                        <div class="hero__actions">
+                            <a href="https://www.silobreaker.com" class="btn btn--primary" target="_blank">
+                                View Silobreaker
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                                </svg>
+                            </a>
+                            <a href="mailto:vladvamos98@gmail.com" class="btn btn--secondary">Get in touch</a>
+                        </div>
+                    </div>
+                    <div class="hero__visual">
+                        <div class="hero__card">
+                            <img
+                                src="Silobreaker Dashboard.png"
+                                alt="Silobreaker Dashboard showing the new Ymir design system"
+                                class="hero__card-image"
+                                onclick="openLightbox(this.src, this.alt)"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Role Summary Card -->
+        <section class="role-section">
+            <div class="container">
+                <div class="role-card">
+                    <div class="role-card__header">
+                        <div class="role-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="role-card__title">Product Designer → Design System Owner</div>
+                            <div class="role-card__subtitle">Silobreaker &middot; June 2024 – Present &middot; Threat Intelligence</div>
+                        </div>
+                    </div>
+                    <div class="role-card__grid">
+                        <div class="role-stat">
+                            <div class="role-stat__value">2x</div>
+                            <div class="role-stat__label">Faster design (self-tracked)</div>
+                        </div>
+                        <div class="role-stat">
+                            <div class="role-stat__value">100%</div>
+                            <div class="role-stat__label">Team adoption</div>
+                        </div>
+                        <div class="role-stat">
+                            <div class="role-stat__value">85%</div>
+                            <div class="role-stat__label">Positive in team survey</div>
+                        </div>
+                        <div class="role-stat">
+                            <div class="role-stat__value">8mo</div>
+                            <div class="role-stat__label">Timeline to system owner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Short Version -->
+        <div class="short-version">
+            <details class="short-version__details">
+                <summary class="short-version__summary">
+                    <svg class="short-version__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                    The Short Version
+                </summary>
+                <div class="short-version__body">
+                    I joined Silobreaker as a Product Designer and within 8 months became the design system owner. I built Ymir, a design system based on Material 3, that brought consistency to a 20-year-old intelligence platform. The system doubled our design velocity (self-tracked), reached <strong>100% team adoption</strong>, and scored <strong>85% positive in a team survey</strong>. Along the way, I designed key features like a customizable nav rail, unified search, and dashboards v2 — and built an AI prototyping tool that the design team now uses as a shared resource.
+                </div>
+            </details>
+        </div>
+
+        <!-- Contributions Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Contributions</span>
+                    <h2 class="section__title">What I inherited and what I built</h2>
+                    <p class="section__description">
+                        Silobreaker has been around since 2005. When I joined, the platform needed visual updates, had accessibility gaps, and every new feature required custom frontend work. These challenges became my focus.
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="content-card">
+                        <h3 class="content-card__title">
+                            <svg class="content-card__title-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                            </svg>
+                            My role
+                        </h3>
+                        <ul class="content-card__list">
+                            <li>Built and maintain the Ymir design system</li>
+                            <li>Designed key features: customizable nav rail, unified search, dashboards v2</li>
+                            <li>Created changelogs and documentation</li>
+                            <li>Shared Figma techniques with the design team</li>
+                            <li>Built AI prototyping tool using Claude Code + Figma MCP</li>
+                            <li>Collaborated with 15 frontend developers on implementation</li>
+                            <li>Worked with leadership to demonstrate value through prototypes</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h3 class="content-card__title">
+                            <svg class="content-card__title-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                            </svg>
+                            Team
+                        </h3>
+                        <ul class="content-card__list">
+                            <li>3 designers</li>
+                            <li>~15 frontend developers</li>
+                            <li>Multiple backend teams</li>
+                            <li>Product managers and Product Director</li>
+                            <li>Stakeholders: CTO, CEO</li>
+                            <li>Customer Success team (key research partners)</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h3 class="content-card__title">
+                            <svg class="content-card__title-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                            </svg>
+                            Challenges
+                        </h3>
+                        <ul class="content-card__list">
+                            <li>Engineering-first culture where design was an afterthought</li>
+                            <li>Outdated UI from a different decade</li>
+                            <li>No cohesive design system—custom components for everything</li>
+                            <li>Frontend bottleneck—only specialized devs could build UI</li>
+                            <li>Leadership needed convincing that change was worth the investment</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h3 class="content-card__title">
+                            <svg class="content-card__title-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                            </svg>
+                            Opportunities
+                        </h3>
+                        <ul class="content-card__list">
+                            <li>C-suite eventually aligned on the need for change</li>
+                            <li>Got 3 months of dedicated design system time</li>
+                            <li>Developers were excited about the new direction</li>
+                            <li>Angular had Material 3 implementation to build on</li>
+                            <li>Strong relationship with CS team for user feedback</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design System Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">01 / Design System</span>
+                    <h2 class="section__title">Building the Ymir Design System</h2>
+                    <p class="section__description">
+                        The case for a design system was clear to the team. Getting time and buy-in from leadership took patience. I created concepts showing what the platform could look like with a proper system.
+                    </p>
+                </div>
+
+                <!-- Before / After Comparisons -->
+                <div class="before-after">
+                    <div class="before-after__panel">
+                        <div class="before-after__label before-after__label--before">
+                            <span class="before-after__label-dot"></span>
+                            Before — Dashboard
+                        </div>
+                        <img src="Dashboards old.png" alt="Silobreaker old dashboard" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-dashboard', 0)">
+                    </div>
+                    <div class="before-after__panel">
+                        <div class="before-after__label before-after__label--after">
+                            <span class="before-after__label-dot"></span>
+                            After — Dashboard
+                        </div>
+                        <img src="Dashboards new.png" alt="Silobreaker new dashboard" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-dashboard', 1)">
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-after__panel">
+                        <div class="before-after__label before-after__label--before">
+                            <span class="before-after__label-dot"></span>
+                            Before — Tickets
+                        </div>
+                        <img src="Tickets before.png" alt="Silobreaker old tickets view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-tickets', 0)">
+                    </div>
+                    <div class="before-after__panel">
+                        <div class="before-after__label before-after__label--after">
+                            <span class="before-after__label-dot"></span>
+                            After — Tickets
+                        </div>
+                        <img src="Tickets new.png" alt="Silobreaker new tickets view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-tickets', 1)">
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-after__panel">
+                        <div class="before-after__label before-after__label--before">
+                            <span class="before-after__label-dot"></span>
+                            Before — Entity view
+                        </div>
+                        <img src="Entity old.png" alt="Silobreaker old entity view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-entity', 0)">
+                    </div>
+                    <div class="before-after__panel">
+                        <div class="before-after__label before-after__label--after">
+                            <span class="before-after__label-dot"></span>
+                            After — Entity view
+                        </div>
+                        <img src="Entity New.png" alt="Silobreaker new entity view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-entity', 1)">
+                    </div>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-block__text">Now our product looks like it was made in this decade.</p>
+                    <p class="quote-block__author">— Product Director, after seeing my initial concepts</p>
+                </div>
+
+                <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">Exploration: 5-6 major iterations</h3>
+                <p style="font-size: 16px; color: var(--color-text-secondary); margin-bottom: 24px; line-height: 1.7;">
+                    We didn't jump to a solution. We explored IBM Carbon, Google Material, Moon Design, and more. For each direction, we mocked up typical Silobreaker pages and showed them to 10-15 stakeholders.
+                </p>
+
+                <!-- Exploration Grid with Images -->
+                <div class="exploration-grid">
+                    <div class="exploration-card" onclick="openLightbox('Dashboards Exploration Carbon.png', 'IBM Carbon exploration', 'exploration', 0)">
+                        <img src="Dashboards Exploration Carbon.png" alt="IBM Carbon exploration">
+                        <div class="exploration-card__label">IBM Carbon</div>
+                    </div>
+                    <div class="exploration-card" onclick="openLightbox('Dashboards Exploration Moon.png', 'Moon Design exploration', 'exploration', 1)">
+                        <img src="Dashboards Exploration Moon.png" alt="Moon Design exploration">
+                        <div class="exploration-card__label">Moon Design</div>
+                    </div>
+                    <div class="exploration-card" onclick="openLightbox('Dashbaord Material.png', 'Material 3 exploration', 'exploration', 2)">
+                        <img src="Dashbaord Material.png" alt="Material 3 exploration">
+                        <div class="exploration-card__label">Material 3</div>
+                    </div>
+                </div>
+
+                <p style="font-size: 16px; color: var(--color-text-secondary); margin: 24px 0; line-height: 1.7;">
+                    We landed on <strong style="color: var(--color-text);">Material 3</strong> as our foundation. I also added a level below atoms—<strong style="color: var(--color-text);">"Quarks"</strong>—for typography and colors. Subatomic particles.
+                </p>
+
+                <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">Key decisions</h3>
+
+                <div class="battle-card">
+                    <div class="battle-card__header">
+                        <span class="battle-card__icon">&#9876;</span>
+                        <span class="battle-card__title">Going all-in (no legacy fallback)</span>
+                    </div>
+                    <p class="battle-card__text">
+                        Some stakeholders wanted to keep the old design system as a fallback. After discussion, the team concluded that maintaining two systems would slow us down. We committed fully to Ymir.
+                    </p>
+                </div>
+
+                <div class="battle-card">
+                    <div class="battle-card__header">
+                        <span class="battle-card__icon">&#9876;</span>
+                        <span class="battle-card__title">Building executive buy-in</span>
+                    </div>
+                    <p class="battle-card__text">
+                        The CTO was initially skeptical about the ROI of a design system. Rather than arguing, I focused on showing prototypes that demonstrated the difference. With support from PMs and developers, the team built a shared understanding of the value.
+                    </p>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">2x</div>
+                        <div class="stat-item__label">Faster design (self-tracked)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">100%</div>
+                        <div class="stat-item__label">Team adoption</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">85%</div>
+                        <div class="stat-item__label">Positive in team survey</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">0</div>
+                        <div class="stat-item__label">Accessibility regressions</div>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">What didn't work</h3>
+                <p style="font-size: 16px; color: var(--color-text-secondary); margin-bottom: 24px; line-height: 1.7;">
+                    My first documentation approach failed. I created detailed Target Process pages that nobody read. Developers told me they wanted answers in context, not separate docs. So I pivoted to inline documentation in Figma—usage went up immediately. Lesson learned: meet people where they work.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">02 / Features</span>
+                    <h2 class="section__title">Strategic feature improvements</h2>
+                    <p class="section__description">
+                        Beyond the design system, I worked on several features that improved the platform experience for power users and security analysts.
+                    </p>
+                </div>
+
+                <!-- Nav Rail Feature -->
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>Customizable Nav Rail</h3>
+                        <p>
+                            <strong>Problem:</strong> Our nav rail had ~10 items (guidelines say 5-7 max). One label was so long it forced the font size down.
+                        </p>
+                        <p>
+                            <strong>Solution:</strong> A nav rail that expands on hover to reveal full labels. Users can customize which items appear vs. go to a "More items" panel. Smart defaults based on analytics.
+                        </p>
+                        <div>
+                            <span class="feature__tag">Expandable on hover</span>
+                            <span class="feature__tag">Customizable</span>
+                            <span class="feature__tag">Analytics-driven defaults</span>
+                        </div>
+                    </div>
+                    <div class="feature__visual feature__visual--image">
+                        <img
+                            src="Custom navrail.png"
+                            alt="Customizable Nav Rail - collapsed and expanded states"
+                            class="feature__visual-img"
+                            onclick="openLightbox(this.src, this.alt)"
+                        >
+                    </div>
+                </div>
+
+                <!-- Unified Search Feature with Carousel -->
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>Unified Search</h3>
+                        <p>
+                            <strong>Problem:</strong> Power users were writing long queries but couldn't see the entire query. They resorted to Notepad.
+                        </p>
+                        <p>
+                            <strong>Solution:</strong> A search panel (like Slack's Cmd+K) with growing query field, recent assets from all types, preview functionality, and a surfaced power-user feature: Fuzzy Asset Finder.
+                        </p>
+                        <p style="font-size: 14px; color: var(--color-text-secondary);">
+                            ~2 months of work. 12 end users surveyed. 5 CS team interviews.
+                        </p>
+                    </div>
+                    <div class="carousel" id="carousel-search">
+                        <span class="carousel__label">1 / 3</span>
+                        <div class="carousel__track">
+                            <div class="carousel__slide">
+                                <img src="Unified Search 1.png" alt="Unified Search - Initial state" onclick="openLightbox(this.src, this.alt, 'unified-search', 0)">
+                            </div>
+                            <div class="carousel__slide">
+                                <img src="Unified Search 2.png" alt="Unified Search - Search results" onclick="openLightbox(this.src, this.alt, 'unified-search', 1)">
+                            </div>
+                            <div class="carousel__slide">
+                                <img src="Unified Search 3.png" alt="Unified Search - Preview panel" onclick="openLightbox(this.src, this.alt, 'unified-search', 2)">
+                            </div>
+                        </div>
+                        <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-search', -1)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </button>
+                        <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-search', 1)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                        <div class="carousel__nav">
+                            <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-search', 0)"></button>
+                            <button class="carousel__dot" onclick="goToSlide('carousel-search', 1)"></button>
+                            <button class="carousel__dot" onclick="goToSlide('carousel-search', 2)"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboards Feature -->
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>Dashboards v2</h3>
+                        <p>
+                            <strong>Problem:</strong> Users couldn't customize widget sizes. No preview of settings. Placement was hard to control.
+                        </p>
+                        <p>
+                            <strong>Solution:</strong> Resizable widgets with live preview, smart widget behavior (documents adjust based on size), edit mode, FAB for adding widgets.
+                        </p>
+                        <div class="battle-card" style="margin-top: 16px;">
+                            <div class="battle-card__header">
+                                <span class="battle-card__icon">&#9876;</span>
+                                <span class="battle-card__title">The Widget Battle</span>
+                            </div>
+                            <p class="battle-card__text">
+                                Developers initially said widgets couldn't change documents based on size. After 3 months of collaboration, we found a solution that worked.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="feature__visual feature__visual--image">
+                        <img
+                            src="Dashboards v2 image.png"
+                            alt="Dashboards v2 - Resizable widgets with edit mode"
+                            class="feature__visual-img"
+                            onclick="openLightbox(this.src, this.alt)"
+                        >
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">2x</div>
+                        <div class="stat-item__label">Faster widget setup</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">100%</div>
+                        <div class="stat-item__label">"Would not go back"</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Tool Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">03 / Innovation</span>
+                    <h2 class="section__title">AI Prototyping Tool</h2>
+                    <p class="section__description">
+                        Figma prototypes are useful, but they had limitations for intricate interactions. With a Claude Pro license, I explored building a working frontend prototype tool—a React implementation of Silobreaker's UI for testing concepts.
+                    </p>
+                </div>
+
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>From Figma to working prototype</h3>
+                        <p>
+                            I used Claude Code and Figma MCP extensively. I could link frames to Claude and it would understand 80-90% of what I wanted. I even went frame-by-frame in Figma to illustrate interactions.
+                        </p>
+                        <p>
+                            My design lead helped me set up the React project. I then shared what I'd learned with our other senior designer, and we now use it as a shared tool.
+                        </p>
+                    </div>
+                    <!-- AI Tool Carousel -->
+                    <div class="carousel" id="carousel-ai">
+                        <span class="carousel__label">1 / 3</span>
+                        <div class="carousel__track">
+                            <div class="carousel__slide">
+                                <img src="Figma MCP.png" alt="Figma MCP - Design frames linked to Claude" onclick="openLightbox(this.src, this.alt, 'ai-tool', 0)">
+                            </div>
+                            <div class="carousel__slide">
+                                <img src="Claude prototype at 14.21.11.png" alt="Claude prototype - AI-generated code" onclick="openLightbox(this.src, this.alt, 'ai-tool', 1)">
+                            </div>
+                            <div class="carousel__slide">
+                                <img src="Local host.png" alt="Local host - Working React prototype" onclick="openLightbox(this.src, this.alt, 'ai-tool', 2)">
+                            </div>
+                        </div>
+                        <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-ai', -1)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </button>
+                        <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-ai', 1)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                        <div class="carousel__nav">
+                            <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-ai', 0)"></button>
+                            <button class="carousel__dot" onclick="goToSlide('carousel-ai', 1)"></button>
+                            <button class="carousel__dot" onclick="goToSlide('carousel-ai', 2)"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-block__text">This is impressive and scary.</p>
+                    <p class="quote-block__author">— Developer feedback on the AI prototyping tool</p>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">60%</div>
+                        <div class="stat-item__label">Faster prototyping (estimated)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item__value stat-item__value--accent">4</div>
+                        <div class="stat-item__label">Versions to get it right</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learnings Section -->
+        <section class="section" style="border: none; padding-top: 0;">
+            <div class="container">
+                <div class="learnings">
+                    <h2 class="learnings__title">Learnings kept in mind moving forward</h2>
+                    <div class="learnings__grid">
+                        <div class="learning-item">
+                            <div class="learning-item__number">1</div>
+                            <h4 class="learning-item__title">Show, don't tell</h4>
+                            <p class="learning-item__text">Arguments alone rarely work. Prototypes that demonstrate the difference are more effective. Seeing is believing.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">2</div>
+                            <h4 class="learning-item__title">Frame design as a business problem</h4>
+                            <p class="learning-item__text">"This will look better" doesn't work. "This will save developer time and reduce cost" works.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">3</div>
+                            <h4 class="learning-item__title">Pick your battles (and build alliances)</h4>
+                            <p class="learning-item__text">When advocating for change, having support from PMs, the Product Director, and developers made a difference. Alignment across roles helps ideas move forward.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">4</div>
+                            <h4 class="learning-item__title">Be patient but persistent</h4>
+                            <p class="learning-item__text">The widget resizing feature took 3 months of iteration. Staying committed to the goal helped us find a solution.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">5</div>
+                            <h4 class="learning-item__title">Explore ideas in your own time</h4>
+                            <p class="learning-item__text">The AI prototyping tool started as a personal experiment. Once it showed value, the team adopted it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-section__title">Let's work together</h2>
+                <p class="cta-section__text">I'm always open to discussing new opportunities and interesting projects.</p>
+                <a href="mailto:vladvamos98@gmail.com" class="btn btn--primary">
+                    Get in touch
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Other Projects -->
+        <section class="projects-section">
+            <div class="container">
+                <h2 class="projects-section__title">My other projects</h2>
+                <div class="projects-grid">
+                    <a href="../Brightbid/brightbid-case-study.html" class="project-card">
+                        <div class="project-card__image" >
+                            <img src="../Brightbid/Dashboard.png" alt="BrightBid Dashboard">
+                        </div>
+                        <div class="project-card__content">
+                            <div class="project-card__name">BrightBid</div>
+                            <p class="project-card__description">Redesigned an AI ad platform. ~35% fewer support tickets, prototype used 8+ months for sales.</p>
+                        </div>
+                    </a>
+                    <a href="../Zoniz/zoniz-case-study.html" class="project-card">
+                        <div class="project-card__image" >
+                            <img src="../Zoniz/CMS - Dashboard.png" alt="Zoniz CMS Dashboard">
+                        </div>
+                        <div class="project-card__content">
+                            <div class="project-card__name">Zoniz</div>
+                            <p class="project-card__description">Built a restaurant platform from scratch. ~80% fewer order errors, 100 restaurants across 3 countries.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">
+                Designed and built by <a href="../index.html" class="footer__link">Vlad Vamos</a> &middot; 2026
+            </p>
+        </div>
+    </footer>
+
+    <script src="../scripts/theme.js"></script>
+    <script src="../scripts/lightbox-anim.js"></script>
+    <script>
+        // Carousel state
+        const carouselState = {
+            'carousel-search': 0,
+            'carousel-ai': 0
+        };
+
+        // Define galleries for lightbox navigation
+        const galleries = {
+            'exploration': [
+                { src: 'Dashboards Exploration Carbon.png', alt: 'IBM Carbon exploration' },
+                { src: 'Dashboards Exploration Moon.png', alt: 'Moon Design exploration' },
+                { src: 'Dashbaord Material.png', alt: 'Material 3 exploration' }
+            ],
+            'unified-search': [
+                { src: 'Unified Search 1.png', alt: 'Unified Search - Initial state' },
+                { src: 'Unified Search 2.png', alt: 'Unified Search - Search results' },
+                { src: 'Unified Search 3.png', alt: 'Unified Search - Preview panel' }
+            ],
+            'ai-tool': [
+                { src: 'Figma MCP.png', alt: 'Figma MCP - Design frames linked to Claude' },
+                { src: 'Claude prototype at 14.21.11.png', alt: 'Claude prototype - AI-generated code' },
+                { src: 'Local host.png', alt: 'Local host - Working React prototype' }
+            ]
+        };
+
+        // Lightbox gallery state
+        let currentGallery = null;
+        let currentGalleryIndex = 0;
+
+        // Move carousel
+        function moveCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const track = carousel.querySelector('.carousel__track');
+            const slides = carousel.querySelectorAll('.carousel__slide');
+            const dots = carousel.querySelectorAll('.carousel__dot');
+            const label = carousel.querySelector('.carousel__label');
+            const totalSlides = slides.length;
+
+            carouselState[carouselId] = (carouselState[carouselId] + direction + totalSlides) % totalSlides;
+            updateCarousel(carouselId, track, dots, label, totalSlides);
+        }
+
+        // Go to specific slide
+        function goToSlide(carouselId, index) {
+            const carousel = document.getElementById(carouselId);
+            const track = carousel.querySelector('.carousel__track');
+            const dots = carousel.querySelectorAll('.carousel__dot');
+            const label = carousel.querySelector('.carousel__label');
+            const totalSlides = carousel.querySelectorAll('.carousel__slide').length;
+
+            carouselState[carouselId] = index;
+            updateCarousel(carouselId, track, dots, label, totalSlides);
+        }
+
+        // Update carousel display
+        function updateCarousel(carouselId, track, dots, label, totalSlides) {
+            const currentIndex = carouselState[carouselId];
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('carousel__dot--active', i === currentIndex);
+            });
+
+            // Update label
+            label.textContent = `${currentIndex + 1} / ${totalSlides}`;
+        }
+
+        // Lightbox functions
+        function openLightbox(src, alt, galleryName, index) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+
+            img.src = src;
+            img.alt = alt;
+            caption.textContent = alt;
+
+            // Set up gallery navigation if gallery is provided
+            if (galleryName && galleries[galleryName]) {
+                currentGallery = galleryName;
+                currentGalleryIndex = index || 0;
+                const gallery = galleries[galleryName];
+
+                prevBtn.classList.add('lightbox__nav--visible');
+                nextBtn.classList.add('lightbox__nav--visible');
+                counter.textContent = `${currentGalleryIndex + 1} / ${gallery.length}`;
+                counter.style.display = 'block';
+            } else {
+                currentGallery = null;
+                currentGalleryIndex = 0;
+                prevBtn.classList.remove('lightbox__nav--visible');
+                nextBtn.classList.remove('lightbox__nav--visible');
+                counter.style.display = 'none';
+            }
+
+            lightbox.classList.add('lightbox--active');
+            document.body.style.overflow = 'hidden';
+            lightboxAnimateIn();
+        }
+
+        function navigateLightbox(direction) {
+            if (!currentGallery || !galleries[currentGallery]) return;
+
+            const gallery = galleries[currentGallery];
+            currentGalleryIndex = (currentGalleryIndex + direction + gallery.length) % gallery.length;
+
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+
+            const item = gallery[currentGalleryIndex];
+            img.src = item.src;
+            img.alt = item.alt;
+            caption.textContent = item.alt;
+            counter.textContent = `${currentGalleryIndex + 1} / ${gallery.length}`;
+        }
+
+        function closeLightbox() {
+            lightboxAnimateOut(function() {
+                currentGallery = null;
+                currentGalleryIndex = 0;
+            });
+        }
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            const isLightboxOpen = lightbox.classList.contains('lightbox--active');
+
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (isLightboxOpen && currentGallery) {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    navigateLightbox(-1);
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    navigateLightbox(1);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

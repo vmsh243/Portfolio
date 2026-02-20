@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrightBid Case Study | Vlad Vamos</title>
+    <meta name="description" content="Designing an AI-powered ad optimization platform for paid search and Google Shopping. From 0 to 1 product design.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="BrightBid Case Study | Vlad Vamos">
+    <meta property="og:description" content="Designing an AI-powered ad optimization platform for paid search and Google Shopping.">
+    <meta property="og:image" content="Dashboard.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BrightBid Case Study | Vlad Vamos">
+    <meta name="twitter:description" content="AI ad optimization hub for paid search and Google Shopping.">
+
+    <link rel="icon" type="image/svg+xml" href="../V.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        /* ============================================
+           BRIGHTBID PAGE-SPECIFIC OVERRIDES
+           ============================================ */
+
+        /* BrightBid uses the default indigo accent (#6366f1) from main.css */
+        /* Only page-specific overrides are needed here */
+
+        /* BrightBid-specific gradients */
+        :root {
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f59e0b 100%);
+            --gradient-card: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --color-warning: #f59e0b;
+        }
+
+        [data-theme="dark"] {
+            --gradient-hero: linear-gradient(135deg, #4c1d95 0%, #6366f1 50%, #f59e0b 100%);
+            --gradient-card: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --gradient-hero: linear-gradient(135deg, #4c1d95 0%, #6366f1 50%, #f59e0b 100%);
+                --gradient-card: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-toggle__button" id="theme-toggle" aria-label="Toggle dark mode">
+            <span class="theme-toggle__knob">
+                <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </span>
+        </button>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox__content">
+            <button class="lightbox__close" onclick="closeLightbox()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <button class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" onclick="navigateLightbox(-1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            <img class="lightbox__img" id="lightbox-img" src="" alt="">
+            <button class="lightbox__nav lightbox__nav--next" id="lightbox-next" onclick="navigateLightbox(1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+            <p class="lightbox__caption" id="lightbox-caption"></p>
+            <a href="Sales prototype.pdf" target="_blank" rel="noopener noreferrer" id="lightbox-pdf-link" style="display: none; align-items: center; gap: 8px; margin-top: 0.75rem; margin-bottom: 1.5rem; padding: 10px 20px; background: var(--color-accent, #4361ee); color: #fff; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                View as PDF
+            </a>
+            <p class="lightbox__counter" id="lightbox-counter"></p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="header__back">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                    Back to portfolio
+                </a>
+                <nav class="header__nav">
+                    <a href="mailto:vladvamos98@gmail.com" class="header__link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero__grid">
+                    <div class="hero__content">
+                        <div class="hero__badge">
+                            <svg class="hero__badge-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+                            </svg>
+                            AI-Powered Advertising Platform
+                        </div>
+                        <h1 class="hero__title">Redesigning an AI-Powered Ad Platform—and Shaping Its Business Model</h1>
+                        <p class="hero__subtitle">
+                            I spent 14 months at BrightBid conducting 50+ user interviews, building the design system, and creating detailed prototypes used in sales calls. Along the way, research revealed something important: users didn't actually want self-service software—they wanted human support.
+                        </p>
+                        <div class="hero__actions">
+                            <a href="https://brightbid.com/" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+                                Visit BrightBid
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                                </svg>
+                            </a>
+                            <a href="mailto:vladvamos98@gmail.com" class="btn btn--secondary">Get in touch</a>
+                        </div>
+                    </div>
+                    <div class="hero__visual">
+                        <div class="carousel" id="carousel-hero">
+                            <span class="carousel__label">1 / 2</span>
+                            <div class="carousel__track">
+                                <div class="carousel__slide">
+                                    <img src="Dashboard.png" alt="BrightBid Dashboard" onclick="openLightbox(this.src, this.alt, 'hero', 0)">
+                                </div>
+                                <div class="carousel__slide">
+                                    <img src="Dashboard 2.png" alt="BrightBid Dashboard - Alternate view" onclick="openLightbox(this.src, this.alt, 'hero', 1)">
+                                </div>
+                            </div>
+                            <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-hero', -1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-hero', 1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                            <div class="carousel__nav">
+                                <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-hero', 0)"></button>
+                                <button class="carousel__dot" onclick="goToSlide('carousel-hero', 1)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Role Summary Card -->
+        <section class="role-section">
+            <div class="container">
+                <div class="role-card">
+                    <div class="role-card__header">
+                        <div class="role-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="role-card__title">Product Designer</div>
+                            <div class="role-card__subtitle">BrightBid &middot; April 2023 – May 2024 &middot; 14 months &middot; AI/AdTech</div>
+                        </div>
+                    </div>
+                    <div class="role-card__grid">
+                        <div class="role-stat">
+                            <div class="role-stat__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
+                                </svg>
+                            </div>
+                            <div class="role-stat__value">~35%</div>
+                            <div class="role-stat__label">Fewer support tickets (support team estimate)</div>
+                        </div>
+                        <div class="role-stat">
+                            <div class="role-stat__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="role-stat__value">~25</div>
+                            <div class="role-stat__label">At-risk customers flagged (specialist reports)</div>
+                        </div>
+                        <div class="role-stat">
+                            <div class="role-stat__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+                                </svg>
+                            </div>
+                            <div class="role-stat__value">8+</div>
+                            <div class="role-stat__label">Months prototype used for sales</div>
+                        </div>
+                        <div class="role-stat">
+                            <div class="role-stat__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                                </svg>
+                            </div>
+                            <div class="role-stat__value">50+</div>
+                            <div class="role-stat__label">User interviews conducted</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Short Version -->
+        <div class="short-version">
+            <details class="short-version__details">
+                <summary class="short-version__summary">
+                    <svg class="short-version__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                    The Short Version
+                </summary>
+                <div class="short-version__body">
+                    At BrightBid, I owned the design system, conducted research that surfaced questions about product positioning, built prototypes used in sales, and introduced processes that made dev handovers smoother. When leadership had ideas I had concerns about, I explored them thoroughly before sharing my perspective.
+                    <br><br>
+                    <strong>The research findings from 2023 aligned with the direction the company took about 18 months later.</strong>
+                </div>
+            </details>
+        </div>
+
+        <!-- What I Owned Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Ownership</span>
+                    <h2 class="section__title">What I Owned</h2>
+                    <p class="section__description">
+                        As one of two designers, I took ownership of the technical and strategic design work that required deep system thinking.
+                    </p>
+                </div>
+
+                <div class="cards-grid cards-grid--three">
+                    <div class="content-card">
+                        <div class="content-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3" />
+                            </svg>
+                        </div>
+                        <h3 class="content-card__title">Design System</h3>
+                        <p class="content-card__text">
+                            Built from scratch and maintained. Introduced patterns like a unified text field component that could morph into dropdowns, search fields, or number inputs. Tracked a <strong>35% speed improvement</strong> when redesigning the keyword suggestion tool.
+                        </p>
+                    </div>
+                    <div class="content-card">
+                        <div class="content-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+                            </svg>
+                        </div>
+                        <h3 class="content-card__title">Research</h3>
+                        <p class="content-card__text">
+                            Ran <strong>50+ user interviews</strong> over 14 months, mostly with digital specialists and customers. Did usability testing pretty much weekly, even if just quick hallway tests with coworkers.
+                        </p>
+                    </div>
+                    <div class="content-card">
+                        <div class="content-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
+                            </svg>
+                        </div>
+                        <h3 class="content-card__title">Complex Prototypes</h3>
+                        <p class="content-card__text">
+                            I focused on building detailed interactive prototypes. One prototype was realistic enough to be used in sales calls for months, helping communicate the product vision to prospects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Big Realization -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Strategic Insight</span>
+                    <h2 class="section__title">The Big Realization</h2>
+                </div>
+
+                <div class="highlight-box">
+                    <h3 class="highlight-box__title">Users weren't buying software—they were buying human support</h3>
+                    <p class="highlight-box__text">
+                        BrightBid was selling itself as a self-service AI tool for managing Google Ads. But after talking to <strong>50+ users</strong>, the research showed something different: users weren't buying the software. They were buying access to a human—the digital specialist assigned to their account. The tool was just a nice-to-have.
+                        <br><br>
+                        This insight pointed toward a different business model. About <strong>18 months later</strong>, under new leadership, the company moved toward an agency model—aligning with what the research had suggested.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problems I Had to Solve -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Challenges</span>
+                    <h2 class="section__title">Challenges I Worked On</h2>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">Problem</th>
+                                <th>What I Did</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="data-table__problem">Users didn't trust the AI</td>
+                                <td class="data-table__solution">Made the AI's suggestions transparent, let users approve changes before they happened, and added an "undo everything" button as a safety net</td>
+                            </tr>
+                            <tr>
+                                <td class="data-table__problem">Everyone worked differently</td>
+                                <td class="data-table__solution">Built a widget system for dashboards so digital specialists could customize views for each client</td>
+                            </tr>
+                            <tr>
+                                <td class="data-table__problem">No onboarding existed</td>
+                                <td class="data-table__solution">Advocated for an onboarding flow, even though it conflicted with the "self-service" positioning</td>
+                            </tr>
+                            <tr>
+                                <td class="data-table__problem">Stakeholders had different priorities</td>
+                                <td class="data-table__solution">Used quick prototypes to explore ideas and demonstrate trade-offs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Research</span>
+                    <h2 class="section__title">How I Did Research</h2>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">Method</th>
+                                <th style="width: 35%;">What I Did</th>
+                                <th>What I Found</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="data-table__problem">User Interviews</td>
+                                <td>50+ with digital specialists and customers</td>
+                                <td>Self-service positioning didn't match actual needs</td>
+                            </tr>
+                            <tr>
+                                <td class="data-table__problem">Usability Testing</td>
+                                <td>Weekly sessions, both moderated and unmoderated</td>
+                                <td>Trust in AI was the biggest barrier to adoption</td>
+                            </tr>
+                            <tr>
+                                <td class="data-table__problem">A/B Testing</td>
+                                <td>Multiple tests on key features</td>
+                                <td>Certain automations needed user approval first</td>
+                            </tr>
+                            <tr>
+                                <td class="data-table__problem">Workshops</td>
+                                <td>With specialists on bidding strategies and workflows</td>
+                                <td>Most valuable features came from these sessions</td>
+                            </tr>
+                            <tr>
+                                <td class="data-table__problem">Analytics</td>
+                                <td>Tracked behavior patterns with Data Science team</td>
+                                <td>Could identify struggling users by time-in-feature</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Insights -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Insights & Outcomes</span>
+                    <h2 class="section__title">What I Found and What I Did About It</h2>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-card__number">1</div>
+                    <h3 class="insight-card__title">Users don't trust the AI</h3>
+                    <p class="insight-card__evidence">
+                        <strong>Evidence:</strong> Interviews and analytics showed low adoption of automated features
+                    </p>
+                    <p class="insight-card__action">
+                        <strong>What I designed:</strong> A multi-layered approach to building trust—show the AI's reasoning, suggest changes instead of applying them automatically, give users progressive control (from suggestion to approval to automation), and always show an "undo" option
+                    </p>
+                    <div class="insight-card__outcome">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px; flex-shrink: 0;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Users reported being more willing to try automation features. Adoption rates improved.</span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-card__number">2</div>
+                    <h3 class="insight-card__title">Digital specialists need dashboards they can customize per client</h3>
+                    <p class="insight-card__evidence">
+                        <strong>Evidence:</strong> Every specialist had completely different workflows
+                    </p>
+                    <p class="insight-card__action">
+                        <strong>What I designed:</strong> Widget-based dashboards with drag-and-drop customization and filtering
+                    </p>
+                    <div class="insight-card__outcome">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px; flex-shrink: 0;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Specialists could finally tailor views to each client's needs without workarounds</span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-card__number">3</div>
+                    <h3 class="insight-card__title">The campaign creation flow was too fragmented</h3>
+                    <p class="insight-card__evidence">
+                        <strong>Evidence:</strong> Specialists were context-switching between Google Ads and BrightBid constantly
+                    </p>
+                    <p class="insight-card__action">
+                        <strong>What I designed:</strong> Unified flow with AI assistance baked in, based on analytics showing which fields took longest to complete
+                    </p>
+                    <div class="insight-card__outcome">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px; flex-shrink: 0;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Support team reported ~35% fewer campaign-related tickets. Specialists confirmed it was faster.</span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-card__number">4</div>
+                    <h3 class="insight-card__title">Self-service positioning doesn't match user reality</h3>
+                    <p class="insight-card__evidence">
+                        <strong>Evidence:</strong> Sales team reported customers chose BrightBid for the "human touch" of digital specialists
+                    </p>
+                    <p class="insight-card__action">
+                        <strong>What I recommended:</strong> Shared research findings suggesting a shift toward an agency model might better serve user needs
+                    </p>
+                    <div class="insight-card__outcome">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px; flex-shrink: 0;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Company moved toward agency model ~18 months later under new leadership</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Deliverables -->
+        <section class="section" id="deliverables">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Deliverables</span>
+                    <h2 class="section__title">Key Deliverables</h2>
+                </div>
+
+                <!-- Portfolio Dashboard -->
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>Portfolio Dashboard</h3>
+                        <div class="feature__metric">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            ~25 at-risk customers flagged early
+                        </div>
+                        <p>
+                            Digital specialists needed to spot problems across hundreds of accounts at a glance. I designed a portfolio view showing organization health scores, managed vs. paused status, and key alerts.
+                        </p>
+                        <p>
+                            Specialists reported this view helped them catch at-risk customers before they churned—problems they would have missed in the old interface.
+                        </p>
+                    </div>
+                    <div class="feature__visual feature__visual--image">
+                        <img src="Feature 1 - portfolio.png" alt="Portfolio Dashboard with health scores and client overview" class="feature__visual-img" onclick="openLightbox(this.src, this.alt)">
+                    </div>
+                </div>
+
+                <!-- AI-Assisted Campaign Creation -->
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>AI-Assisted Campaign Creation</h3>
+                        <div class="feature__metric">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
+                            </svg>
+                            ~35% fewer support tickets (support team estimate)
+                        </div>
+                        <p>
+                            Unified the fragmented workflow where specialists juggled Google Ads and BrightBid in separate tabs. Collaborated with AI and Dev teams to identify automation opportunities through usage analytics.
+                        </p>
+                        <p>
+                            The integrated flow received "massive appreciation" and measurably reduced support burden.
+                        </p>
+                    </div>
+                    <div class="feature__visual">
+                        <div class="carousel" id="carousel-campaign">
+                            <span class="carousel__label">1 / 3</span>
+                            <div class="carousel__track">
+                                <div class="carousel__slide">
+                                    <img src="Campaign creation flow 1.png" alt="Campaign creation - Step 1" onclick="openLightbox(this.src, this.alt, 'campaign', 0)">
+                                </div>
+                                <div class="carousel__slide">
+                                    <img src="Campaign creation flow 2.png" alt="Campaign creation - Step 2" onclick="openLightbox(this.src, this.alt, 'campaign', 1)">
+                                </div>
+                                <div class="carousel__slide">
+                                    <img src="Campaign creation flow 3.png" alt="Campaign creation - Step 3" onclick="openLightbox(this.src, this.alt, 'campaign', 2)">
+                                </div>
+                            </div>
+                            <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-campaign', -1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-campaign', 1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                            <div class="carousel__nav">
+                                <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-campaign', 0)"></button>
+                                <button class="carousel__dot" onclick="goToSlide('carousel-campaign', 1)"></button>
+                                <button class="carousel__dot" onclick="goToSlide('carousel-campaign', 2)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Keyword Suggestion Engine -->
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>Keyword Suggestion Engine</h3>
+                        <div class="feature__metric">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
+                            4 major iterations driven by research
+                        </div>
+                        <p>
+                            Most-iterated feature during my tenure. Each version refined based on usability testing and workflow observation.
+                        </p>
+                        <p>
+                            Designed granular controls so users could select which ad groups receive suggestions—critical for high-stakes decisions where wrong keywords waste ad budget.
+                        </p>
+                    </div>
+                    <div class="feature__visual">
+                        <div class="carousel" id="carousel-keyword">
+                            <span class="carousel__label">1 / 3</span>
+                            <div class="carousel__track">
+                                <div class="carousel__slide">
+                                    <img src="Keyword Suggestion.png" alt="Keyword Suggestion - Overview" onclick="openLightbox(this.src, this.alt, 'keyword', 0)">
+                                </div>
+                                <div class="carousel__slide">
+                                    <img src="Keyword Suggestions.png" alt="Keyword Suggestions - List view" onclick="openLightbox(this.src, this.alt, 'keyword', 1)">
+                                </div>
+                                <div class="carousel__slide">
+                                    <img src="Keyword Suggestions-1.png" alt="Keyword Suggestions - Detail view" onclick="openLightbox(this.src, this.alt, 'keyword', 2)">
+                                </div>
+                            </div>
+                            <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-keyword', -1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-keyword', 1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                            <div class="carousel__nav">
+                                <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-keyword', 0)"></button>
+                                <button class="carousel__dot" onclick="goToSlide('carousel-keyword', 1)"></button>
+                                <button class="carousel__dot" onclick="goToSlide('carousel-keyword', 2)"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <img src="Keyword Suggestion toast logic diagram.png" alt="Keyword suggestion toast logic diagram" style="width: 100%; max-width: 480px; border-radius: 12px; cursor: pointer; opacity: 0.85; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'" onclick="openLightbox(this.src, this.alt)">
+                        <p style="font-size: 0.75rem; color: var(--color-text-tertiary); margin-top: 0.5rem;">Toast logic diagram — click to expand</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Sales Prototype -->
+                <div class="feature-showcase">
+                    <div class="feature__content">
+                        <h3>Interactive Sales Prototype</h3>
+                        <div class="feature__metric">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+                            </svg>
+                            Used in sales calls for 8+ months
+                        </div>
+                        <p>
+                            Created a high-fidelity prototype showcasing the platform vision. It was detailed enough to be incorporated into the sales process.
+                        </p>
+                        <p>
+                            The prototype was used in sales calls for 8+ months, helping communicate the product direction to potential customers.
+                        </p>
+                    </div>
+                    <div class="feature__visual" style="display: flex; flex-direction: column; align-items: center; padding-bottom: 1.25rem;">
+                        <img src="Sales prototype preview.png" alt="Sales Prototype Preview" style="width: 100%; border-radius: 0; cursor: pointer;" onclick="openLightbox(this.src, this.alt, 'prototype', 0)">
+                        <a href="Sales prototype.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 1rem; padding: 10px 20px; background: var(--color-accent, #4361ee); color: #fff; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
+                            View as PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learnings Section -->
+        <section class="section" style="border: none; padding-top: 0;">
+            <div class="container">
+                <div class="learnings">
+                    <h2 class="learnings__title">What I Took Away from BrightBid</h2>
+                    <div class="learnings__grid">
+                        <div class="learning-item">
+                            <div class="learning-item__number">1</div>
+                            <h4 class="learning-item__title">Sometimes you have to prove an idea won't work</h4>
+                            <p class="learning-item__text">Leadership wanted a mobile app. Rather than disagreeing outright, I explored the idea through multiple design attempts. None of them worked well for the use case. Sometimes the most useful thing is to thoroughly explore an idea before deciding against it.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">2</div>
+                            <h4 class="learning-item__title">Research beats assumptions</h4>
+                            <p class="learning-item__text">We assumed users wanted self-service. They didn't—they wanted human support. This only became clear through direct conversations with users. The company later moved in this direction.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">3</div>
+                            <h4 class="learning-item__title">Trust in AI is earned, not assumed</h4>
+                            <p class="learning-item__text">Users won't trust AI just because it's there. You have to show them it's reliable, give them control over what it does, and always let them undo things. Trust builds slowly.</p>
+                        </div>
+                    </div>
+
+                    <div class="learnings__failure" style="margin-top: 2.5rem; padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border); border-left: 4px solid #e6a817;">
+                        <h3 style="margin: 0 0 0.75rem 0; font-size: 1.1rem; color: var(--color-text-primary);">What didn't work</h3>
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.6;">My first dashboard design was too ambitious. I designed an elaborate widget system with dozens of customization options—data density controls, color themes, complex filtering. Users were overwhelmed. In testing, they asked "can I just see my campaigns?" I stripped it back to the essentials: health scores, alerts, and three preset views. Simpler was better. The lesson: start minimal, add complexity only when users ask for it.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-section__title">Let's work together</h2>
+                <p class="cta-section__text">I'm always open to discussing new opportunities and interesting projects.</p>
+                <a href="mailto:vladvamos98@gmail.com" class="btn btn--primary">
+                    Get in touch
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Other Projects -->
+        <section class="projects-section">
+            <div class="container">
+                <h2 class="projects-section__title">My other projects</h2>
+                <div class="projects-grid">
+                    <a href="../Silobreaker/silobreaker-case-study-v3.html" class="project-card">
+                        <div class="project-card__image" >
+                            <img src="../Silobreaker/Silobreaker Dashboard.png" alt="Silobreaker Dashboard">
+                        </div>
+                        <div class="project-card__content">
+                            <div class="project-card__name">Silobreaker</div>
+                            <p class="project-card__description">Building a design system for a 20-year-old intelligence platform. 2x faster design, 100% adoption.</p>
+                        </div>
+                    </a>
+                    <a href="../Zoniz/zoniz-case-study.html" class="project-card">
+                        <div class="project-card__image" >
+                            <img src="../Zoniz/CMS - Dashboard.png" alt="Zoniz CMS Dashboard">
+                        </div>
+                        <div class="project-card__content">
+                            <div class="project-card__name">Zoniz</div>
+                            <p class="project-card__description">Built a restaurant platform from scratch. ~80% fewer order errors, 100 restaurants across 3 countries.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">
+                Designed and built by <a href="../index.html" class="footer__link">Vlad Vamos</a> &middot; 2026
+            </p>
+        </div>
+    </footer>
+
+    <script src="../scripts/theme.js"></script>
+    <script src="../scripts/lightbox-anim.js"></script>
+    <script>
+        // Carousel state
+        const carouselState = {
+            'carousel-hero': 0,
+            'carousel-campaign': 0,
+            'carousel-keyword': 0
+        };
+
+        // Define galleries for lightbox navigation
+        const galleries = {
+            'hero': [
+                { src: 'Dashboard.png', alt: 'BrightBid Dashboard' },
+                { src: 'Dashboard 2.png', alt: 'BrightBid Dashboard - Alternate view' }
+            ],
+            'campaign': [
+                { src: 'Campaign creation flow 1.png', alt: 'Campaign creation - Step 1' },
+                { src: 'Campaign creation flow 2.png', alt: 'Campaign creation - Step 2' },
+                { src: 'Campaign creation flow 3.png', alt: 'Campaign creation - Step 3' }
+            ],
+            'keyword': [
+                { src: 'Keyword Suggestion.png', alt: 'Keyword Suggestion - Overview' },
+                { src: 'Keyword Suggestions.png', alt: 'Keyword Suggestions - List view' },
+                { src: 'Keyword Suggestions-1.png', alt: 'Keyword Suggestions - Detail view' }
+            ],
+            'prototype': [
+                { src: 'Sales prototype preview.png', alt: 'Sales Prototype Preview' }
+            ]
+        };
+
+        // Lightbox gallery state
+        let currentGallery = null;
+        let currentGalleryIndex = 0;
+
+        // Move carousel
+        function moveCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const track = carousel.querySelector('.carousel__track');
+            const slides = carousel.querySelectorAll('.carousel__slide');
+            const dots = carousel.querySelectorAll('.carousel__dot');
+            const label = carousel.querySelector('.carousel__label');
+            const totalSlides = slides.length;
+
+            carouselState[carouselId] = (carouselState[carouselId] + direction + totalSlides) % totalSlides;
+            updateCarousel(carouselId, track, dots, label, totalSlides);
+        }
+
+        // Go to specific slide
+        function goToSlide(carouselId, index) {
+            const carousel = document.getElementById(carouselId);
+            const track = carousel.querySelector('.carousel__track');
+            const dots = carousel.querySelectorAll('.carousel__dot');
+            const label = carousel.querySelector('.carousel__label');
+            const totalSlides = carousel.querySelectorAll('.carousel__slide').length;
+
+            carouselState[carouselId] = index;
+            updateCarousel(carouselId, track, dots, label, totalSlides);
+        }
+
+        // Update carousel display
+        function updateCarousel(carouselId, track, dots, label, totalSlides) {
+            const currentIndex = carouselState[carouselId];
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('carousel__dot--active', i === currentIndex);
+            });
+
+            // Update label
+            label.textContent = `${currentIndex + 1} / ${totalSlides}`;
+        }
+
+        // Lightbox functions
+        function openLightbox(src, alt, galleryName, index) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+            const pdfLink = document.getElementById('lightbox-pdf-link');
+
+            img.src = src;
+            img.alt = alt;
+            caption.textContent = alt;
+
+            // Show PDF link for prototype gallery
+            pdfLink.style.display = (galleryName === 'prototype') ? 'inline-flex' : 'none';
+
+            // Set up gallery navigation if gallery is provided
+            if (galleryName && galleries[galleryName]) {
+                currentGallery = galleryName;
+                currentGalleryIndex = index || 0;
+                const gallery = galleries[galleryName];
+
+                prevBtn.classList.add('lightbox__nav--visible');
+                nextBtn.classList.add('lightbox__nav--visible');
+                counter.textContent = `${currentGalleryIndex + 1} / ${gallery.length}`;
+                counter.style.display = 'block';
+            } else {
+                currentGallery = null;
+                currentGalleryIndex = 0;
+                prevBtn.classList.remove('lightbox__nav--visible');
+                nextBtn.classList.remove('lightbox__nav--visible');
+                counter.style.display = 'none';
+            }
+
+            lightbox.classList.add('lightbox--active');
+            document.body.style.overflow = 'hidden';
+            lightboxAnimateIn();
+        }
+
+        function closeLightbox() {
+            lightboxAnimateOut();
+        }
+
+        function navigateLightbox(direction) {
+            if (!currentGallery || !galleries[currentGallery]) return;
+
+            const gallery = galleries[currentGallery];
+            currentGalleryIndex = (currentGalleryIndex + direction + gallery.length) % gallery.length;
+
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+
+            img.src = gallery[currentGalleryIndex].src;
+            img.alt = gallery[currentGalleryIndex].alt;
+            caption.textContent = gallery[currentGalleryIndex].alt;
+            counter.textContent = `${currentGalleryIndex + 1} / ${gallery.length}`;
+        }
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox on Escape, navigate with arrow keys
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('lightbox--active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    navigateLightbox(-1);
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    navigateLightbox(1);
+                }
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoniz Case Study | Vlad Vamos</title>
+    <meta name="description" content="22 months redesigning a restaurant platform: digital menus, orders, and inventory management. From intern to sole designer.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Zoniz Case Study | Vlad Vamos">
+    <meta property="og:description" content="22 months redesigning a restaurant platform. From intern to sole designer.">
+    <meta property="og:image" content="CMS - Dashboard.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zoniz Case Study | Vlad Vamos">
+    <meta name="twitter:description" content="Digital menus, orders, and inventory management for restaurants.">
+
+    <link rel="icon" type="image/svg+xml" href="../V.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        /* ============================================
+           ZONIZ PAGE-SPECIFIC OVERRIDES
+           Warm color palette: oranges, amber, warm reds
+           ============================================ */
+
+        :root {
+            --color-accent: #F97316;
+            --color-accent-hover: #EA580C;
+            --gradient-hero: linear-gradient(135deg, #F97316 0%, #DC2626 50%, #FBBF24 100%);
+            --gradient-card: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+            --color-warning: #FBBF24;
+        }
+
+        [data-theme="dark"] {
+            --color-accent: #FB923C;
+            --color-accent-hover: #F97316;
+            --gradient-hero: linear-gradient(135deg, #9A3412 0%, #B91C1C 50%, #D97706 100%);
+            --gradient-card: linear-gradient(135deg, #EA580C 0%, #DC2626 100%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --color-accent: #FB923C;
+                --color-accent-hover: #F97316;
+                --gradient-hero: linear-gradient(135deg, #9A3412 0%, #B91C1C 50%, #D97706 100%);
+                --gradient-card: linear-gradient(135deg, #EA580C 0%, #DC2626 100%);
+            }
+        }
+
+        /* Zoniz-specific gradient overrides */
+        .learning-item__number {
+            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+        }
+
+        .role-card__icon {
+            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+        }
+
+        .insight-card__number {
+            background: var(--gradient-card);
+        }
+
+        /* Story callout styling */
+        .story-callout {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 191, 36, 0.1) 100%);
+            border-left: 4px solid var(--color-accent);
+            padding: 1.5rem 2rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
+        }
+
+        [data-theme="dark"] .story-callout {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(251, 191, 36, 0.1) 100%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .story-callout {
+                background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(251, 191, 36, 0.1) 100%);
+            }
+        }
+
+        .story-callout__title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .story-callout__text {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Mentorship section special styling */
+        .mentorship-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .mentorship-card__icon {
+            width: 64px;
+            height: 64px;
+            min-width: 64px;
+            background: var(--gradient-card);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .mentorship-card__icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .mentorship-card__content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+
+        .mentorship-card__content p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        .mentorship-card__outcome {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-border);
+            color: var(--color-accent);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .mentorship-card {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Image placeholder styling */
+        .image-placeholder {
+            background: linear-gradient(135deg, var(--color-surface-alt) 0%, var(--color-surface) 100%);
+            border: 2px dashed var(--color-border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            color: var(--color-text-tertiary);
+            text-align: center;
+            min-height: 300px;
+        }
+
+        .image-placeholder__icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .image-placeholder__label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .image-placeholder__size {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            opacity: 0.7;
+        }
+
+        /* ============================================
+           JOURNEY TIMELINE - Zoniz specific
+           ============================================ */
+
+        .journey {
+            position: relative;
+            padding: 0;
+        }
+
+        .journey__intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .journey__intro-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+        }
+
+        .journey__intro-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+
+        .journey__intro-text {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Timeline container */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--color-accent) 0%, var(--color-warning) 100%);
+            border-radius: 2px;
+        }
+
+        /* Chapter/milestone */
+        .chapter {
+            position: relative;
+            padding-bottom: 4rem;
+        }
+
+        .chapter:last-child {
+            padding-bottom: 0;
+        }
+
+        .chapter__marker {
+            position: absolute;
+            left: -3rem;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            transform: translateX(-10.5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 6px rgba(249, 115, 22, 0.2);
+        }
+
+        .chapter__marker-inner {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .chapter__time {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-accent);
+            background: rgba(249, 115, 22, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 0.75rem;
+        }
+
+        .chapter__title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+
+        .chapter__content {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        .chapter__content p {
+            margin-bottom: 1rem;
+        }
+
+        .chapter__content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Moment card - for human/emotional moments */
+        .moment-card {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(251, 191, 36, 0.05) 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .moment-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            font-family: Georgia, serif;
+            color: var(--color-accent);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .moment-card__text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--color-text);
+            line-height: 1.6;
+            padding-left: 1rem;
+        }
+
+        .moment-card__source {
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--color-text-tertiary);
+            padding-left: 1rem;
+        }
+
+        /* Highlight variant - no quote mark, for personal observations */
+        .moment-card--highlight::before {
+            display: none;
+        }
+
+        .moment-card--highlight .moment-card__text {
+            font-style: normal;
+            padding-left: 0;
+        }
+
+        /* Impact strip - subtle horizontal metrics */
+        .impact-strip {
+            display: flex;
+            gap: 2rem;
+            padding: 1.25rem 1.5rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .impact-strip__item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .impact-strip__value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        .impact-strip__label {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Visual placeholder in chapters */
+        .chapter__visual {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Story-first hero adjustments */
+        .hero--story {
+            padding-bottom: 3rem;
+        }
+
+        .hero--story .hero__title {
+            font-size: 2.5rem;
+            max-width: 800px;
+        }
+
+        .hero--story .hero__subtitle {
+            font-size: 1.125rem;
+            max-width: 650px;
+        }
+
+        /* Subtle stats row (replacing big role card) */
+        .stats-subtle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            margin: 2rem 0;
+        }
+
+        .stats-subtle__item {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .stats-subtle__value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        .stats-subtle__label {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .chapter__marker {
+                left: -2rem;
+                width: 20px;
+                height: 20px;
+                transform: translateX(-8.5px);
+            }
+
+            .chapter__marker-inner {
+                width: 8px;
+                height: 8px;
+            }
+
+            .chapter__title {
+                font-size: 1.25rem;
+            }
+
+            .impact-strip {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-subtle {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .journey__intro-title {
+                font-size: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-toggle__button" id="theme-toggle" aria-label="Toggle dark mode">
+            <span class="theme-toggle__knob">
+                <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </span>
+        </button>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox__content">
+            <div class="lightbox__zoom">
+                <button class="lightbox__zoom-btn" onclick="zoomLightbox(-0.5)" title="Zoom out">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6" />
+                    </svg>
+                </button>
+                <span class="lightbox__zoom-level" id="zoom-level">100%</span>
+                <button class="lightbox__zoom-btn" onclick="zoomLightbox(0.5)" title="Zoom in">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                    </svg>
+                </button>
+            </div>
+            <button class="lightbox__close" onclick="closeLightbox()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <button class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" onclick="navigateLightbox(-1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            <img class="lightbox__img" id="lightbox-img" src="" alt="">
+            <button class="lightbox__nav lightbox__nav--next" id="lightbox-next" onclick="navigateLightbox(1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+            <p class="lightbox__caption" id="lightbox-caption"></p>
+            <p class="lightbox__counter" id="lightbox-counter"></p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="header__back">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                    Back to portfolio
+                </a>
+                <nav class="header__nav">
+                    <a href="mailto:vladvamos98@gmail.com" class="header__link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero__grid">
+                    <div class="hero__content">
+                        <div class="hero__badge">
+                            <svg class="hero__badge-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
+                            </svg>
+                            Zoniz &middot; July 2021 – April 2023
+                        </div>
+                        <h1 class="hero__title">Two months in, I went from intern to sole designer.</h1>
+                        <p class="hero__subtitle">
+                            I joined Zoniz as an intern with minimal experience. What followed was 22 months as the only designer—rebuilding a restaurant platform, working as a waiter to understand real problems, and mentoring a cook who wanted to transition into design. This is the story of that journey.
+                        </p>
+                        <div class="hero__actions">
+                            <a href="https://zoniz-restaurant.com/" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+                                Visit Zoniz
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                                </svg>
+                            </a>
+                            <a href="mailto:vladvamos98@gmail.com" class="btn btn--secondary">Get in touch</a>
+                        </div>
+
+                        <!-- Subtle stats row -->
+                        <div class="stats-subtle">
+                            <div class="stats-subtle__item">
+                                <span class="stats-subtle__value">~80%</span>
+                                <span class="stats-subtle__label">fewer order errors (support data)</span>
+                            </div>
+                            <div class="stats-subtle__item">
+                                <span class="stats-subtle__value">~4x</span>
+                                <span class="stats-subtle__label">webapp vs app adoption</span>
+                            </div>
+                            <div class="stats-subtle__item">
+                                <span class="stats-subtle__value">100</span>
+                                <span class="stats-subtle__label">restaurants</span>
+                            </div>
+                            <div class="stats-subtle__item">
+                                <span class="stats-subtle__value">3</span>
+                                <span class="stats-subtle__label">countries</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero__visual">
+                        <div class="hero__card">
+                            <img
+                                src="CMS - Dashboard.png"
+                                alt="Zoniz CMS Dashboard"
+                                class="hero__card-image"
+                                onclick="openLightbox(this.src, this.alt)"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Short Version -->
+        <div class="short-version">
+            <details class="short-version__details">
+                <summary class="short-version__summary">
+                    <svg class="short-version__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                    The Short Version
+                </summary>
+                <div class="short-version__body">
+                    I joined Zoniz as an intern with minimal experience. Two months in, I became the sole designer. For 22 months, I owned the design work — and for the last 6 months, I also took on interim PM responsibilities.
+                    <br><br>
+                    The platform had significant design debt: Adobe Illustrator handoffs, skeuomorphic visuals, accessibility gaps. Over time, the team brought order errors down by <strong>~80% (based on support data)</strong>, the webapp saw <strong>~4x adoption compared to the native app</strong>, and the platform grew to <strong>100 restaurants across Romania, Sweden, and the Netherlands</strong>.
+                    <br><br>
+                    Along the way, I worked as a waiter to understand real user problems, mentored a cook who went on to become a UX designer, and learned a lot from the mistakes I made along the way.
+                </div>
+            </details>
+        </div>
+
+        <!-- The Journey -->
+        <section class="section journey" id="deliverables">
+            <div class="container">
+                <div class="journey__intro">
+                    <span class="journey__intro-label">22 Months</span>
+                    <h2 class="journey__intro-title">The Journey</h2>
+                    <p class="journey__intro-text">
+                        From inheriting a broken system to building something restaurants actually wanted to use. Here's what happened.
+                    </p>
+                </div>
+
+                <div class="timeline">
+                    <!-- Chapter 1: The Inheritance -->
+                    <div class="chapter">
+                        <div class="chapter__marker"><div class="chapter__marker-inner"></div></div>
+                        <span class="chapter__time">Months 1–2</span>
+                        <h3 class="chapter__title">The Inheritance</h3>
+                        <div class="chapter__content">
+                            <p>
+                                The existing designs came from a graphic design background—Adobe Illustrator handoffs, skeuomorphic visuals that weren't built for different screen sizes, and accessibility gaps throughout.
+                            </p>
+                            <div class="moment-card moment-card--highlight">
+                                <p class="moment-card__text">Two months after I started as an intern, the role became mine. Suddenly I was the only designer for a platform used by dozens of restaurants.</p>
+                            </div>
+                            <p>
+                                My job was to clean it up and make it actually work. For the next 22 months, I was the only designer—and for the last 6 months, I also took on interim PM responsibilities.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 2: Customer App -->
+                    <div class="chapter">
+                        <div class="chapter__marker"><div class="chapter__marker-inner"></div></div>
+                        <span class="chapter__time">Months 3–6</span>
+                        <h3 class="chapter__title">The 35% Error Rate Crisis</h3>
+                        <div class="chapter__content">
+                            <p>
+                                35% of orders had the same issue: users accidentally asked for the check when they meant to order more food. They'd tap through the flow, not realize their order was sent, and then panic when the bill showed up.
+                            </p>
+                            <div class="moment-card moment-card--highlight">
+                                <p class="moment-card__text">I ran observational research at DOT (a local restaurant who became our champion and closest collaborator for testing and research), watching customers use the app. The confusion was obvious once I saw it happen in real time—people genuinely didn't know what they'd just done.</p>
+                            </div>
+                            <p>
+                                But the bigger problem? Most customers were annoyed they had to download an app just to order food. My redesign focused on two things: making the flow forgiving of mistakes (moved "Order more" to the right as primary action), and confirming before sending. Then I tackled the app requirement itself—I argued for a lightweight web experience that would open when scanning the QR code.
+                            </p>
+                            <div class="chapter__visual">
+                                <div class="exploration-grid" style="grid-template-columns: 1fr 1fr;">
+                                    <div class="exploration-card" onclick="openLightbox('Zoniz Client - before.png', 'Customer app — Before redesign', 'before-after', 0)">
+                                        <img src="Zoniz Client - before.png" alt="Customer app — Before redesign">
+                                        <div class="exploration-card__label">Before</div>
+                                    </div>
+                                    <div class="exploration-card" onclick="openLightbox('Zoniz Client - after.png', 'Customer app — After redesign', 'before-after', 1)">
+                                        <img src="Zoniz Client - after.png" alt="Customer app — After redesign">
+                                        <div class="exploration-card__label">After</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chapter__visual" style="margin-top: 1rem; text-align: center;">
+                                <img src="Diagram - Can user oder through the app.png" alt="Flow diagram — Can the user order through the app?" style="width: 100%; max-width: 480px; border-radius: 12px; cursor: pointer; opacity: 0.85; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'" onclick="openLightbox(this.src, this.alt)">
+                                <p style="font-size: 0.75rem; color: var(--color-text-tertiary); margin-top: 0.5rem;">Flow diagram — click to expand</p>
+                            </div>
+                            <div class="impact-strip">
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">~80%</span>
+                                    <span class="impact-strip__label">fewer errors (support data)</span>
+                                </div>
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">~4x</span>
+                                    <span class="impact-strip__label">webapp adoption vs app</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 3: Staff App -->
+                    <div class="chapter">
+                        <div class="chapter__marker"><div class="chapter__marker-inner"></div></div>
+                        <span class="chapter__time">Months 6–12</span>
+                        <h3 class="chapter__title">I Worked as a Waiter for a Day</h3>
+                        <div class="chapter__content">
+                            <p>
+                                I talked to about 60 restaurant staff across 15 restaurants. But the real insight came when I worked as a waiter at one of our premium rooftop bar clients. Using the app I designed, in the middle of a dinner rush, showed me problems I never would've caught in a usability test.
+                            </p>
+                            <div class="moment-card moment-card--highlight">
+                                <p class="moment-card__text">In bright Romanian summer sun, the screen was unreadable. I tested this myself by walking onto the office balcony and at restaurant terraces with a mid-range phone—the kind waiters actually use.</p>
+                            </div>
+                            <p>
+                                The existing waiter app was a mess: contrast issues, confusing notifications, slow ordering flow, and no supervisor view. I addressed every one of these issues with high contrast UI, color-coded notification states, reduced taps with larger touch targets, and table layout visualization.
+                            </p>
+                            <div class="story-callout" style="margin: 1.5rem 0;">
+                                <div class="story-callout__title">An Unexpected Accessibility Win</div>
+                                <p class="story-callout__text">
+                                    Restaurant owners told me their multilingual staff—some of whom were still learning Romanian and English—could use the app effectively and serve food to the right tables without issues. The owners credited the clear iconography. That wasn't something I explicitly designed for, but it validated that the design transcended language barriers.
+                                </p>
+                            </div>
+                            <div class="chapter__visual">
+                                <div class="exploration-grid" style="grid-template-columns: 1fr 1fr;">
+                                    <div class="exploration-card" onclick="openLightbox('Waiter app - old.png', 'Waiter app — Old design', 'waiter', 0)">
+                                        <img src="Waiter app - old.png" alt="Waiter app — Old design">
+                                        <div class="exploration-card__label">Old</div>
+                                    </div>
+                                    <div class="exploration-card" onclick="openLightbox('Waiter app - new.png', 'Waiter app — New design', 'waiter', 1)">
+                                        <img src="Waiter app - new.png" alt="Waiter app — New design">
+                                        <div class="exploration-card__label">New</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chapter__visual" style="margin-top: 1rem; text-align: center;">
+                                <img src="Diagram - send a notification to the waiter.png" alt="Flow diagram — Send a notification to the waiter" style="width: 100%; max-width: 480px; border-radius: 12px; cursor: pointer; opacity: 0.85; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'" onclick="openLightbox(this.src, this.alt)">
+                                <p style="font-size: 0.75rem; color: var(--color-text-tertiary); margin-top: 0.5rem;">Flow diagram — click to expand</p>
+                            </div>
+                            <div class="impact-strip">
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">30</span>
+                                    <span class="impact-strip__label">staff interviewed</span>
+                                </div>
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">15</span>
+                                    <span class="impact-strip__label">restaurants</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 4: Tablet Interface -->
+                    <div class="chapter">
+                        <div class="chapter__marker"><div class="chapter__marker-inner"></div></div>
+                        <span class="chapter__time">Months 12–18</span>
+                        <h3 class="chapter__title">When Prototypes Fail in Real Life</h3>
+                        <div class="chapter__content">
+                            <p>
+                                Restaurant supervisors needed a bigger view to manage orders across all tables. My first attempt? I just upscaled the phone UI. In the Figma prototype, it looked fine.
+                            </p>
+                            <div class="moment-card moment-card--highlight">
+                                <p class="moment-card__text">In a real restaurant during dinner service? Complete disaster. The upscaled UI was too slow for busy staff. We went through 5 iterations in 3 months.</p>
+                            </div>
+                            <p>
+                                I redesigned it with horizontally scrolling product grids, quick print options right on the cart panel, product categories in a scrollable row, and table layout visualization. Users appreciated the predictability—products stayed in the same spot, so they could learn the layout and get there fast.
+                            </p>
+                            <div class="chapter__visual">
+                                <div class="exploration-grid" style="grid-template-columns: 1fr 1fr;">
+                                    <div class="exploration-card" onclick="openLightbox('POS UI - old.png', 'POS Interface — Old design', 'pos', 0)">
+                                        <img src="POS UI - old.png" alt="POS Interface — Old design">
+                                        <div class="exploration-card__label">Old POS</div>
+                                    </div>
+                                    <div class="exploration-card" onclick="openLightbox('POS UI - new.png', 'POS Interface — New design', 'pos', 1)">
+                                        <img src="POS UI - new.png" alt="POS Interface — New design">
+                                        <div class="exploration-card__label">New POS</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="impact-strip">
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">60</span>
+                                    <span class="impact-strip__label">restaurants adopted it</span>
+                                </div>
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">5</span>
+                                    <span class="impact-strip__label">iterations in 3 months</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 5: CMS & Expansion -->
+                    <div class="chapter">
+                        <div class="chapter__marker"><div class="chapter__marker-inner"></div></div>
+                        <span class="chapter__time">Months 18–22</span>
+                        <h3 class="chapter__title">CMS Dashboard & Expansion</h3>
+                        <div class="chapter__content">
+                            <p>
+                                Restaurant owners needed to understand their business performance, but the data was scattered and hard to parse. I ran card sorting exercises to figure out which statistics mattered most: total sales by payment method, sales per POS, sales by waiter, and most sold products.
+                            </p>
+                            <p>
+                                Then I added shortcuts to the most commonly used features right on the dashboard. Owners loved checking in multiple times a day to get a health check on sales. The most-used shortcuts were "Products sold this month" and "Today's reservations."
+                            </p>
+                            <div class="chapter__visual">
+                                <div class="carousel" id="carousel-cms">
+                                    <span class="carousel__label">1 / 3</span>
+                                    <div class="carousel__track">
+                                        <div class="carousel__slide">
+                                            <img src="CMS - Dashboard.png" alt="CMS Dashboard overview" onclick="openLightbox(this.src, this.alt, 'cms', 0)">
+                                        </div>
+                                        <div class="carousel__slide">
+                                            <img src="CMS - Recipe manager.png" alt="CMS Recipe manager" onclick="openLightbox(this.src, this.alt, 'cms', 1)">
+                                        </div>
+                                        <div class="carousel__slide">
+                                            <img src="cms - Stock management.png" alt="CMS Stock management" onclick="openLightbox(this.src, this.alt, 'cms', 2)">
+                                        </div>
+                                    </div>
+                                    <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-cms', -1)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                        </svg>
+                                    </button>
+                                    <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-cms', 1)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="carousel__nav">
+                                        <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-cms', 0)"></button>
+                                        <button class="carousel__dot" onclick="goToSlide('carousel-cms', 1)"></button>
+                                        <button class="carousel__dot" onclick="goToSlide('carousel-cms', 2)"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="impact-strip">
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">100</span>
+                                    <span class="impact-strip__label">restaurants total</span>
+                                </div>
+                                <div class="impact-strip__item">
+                                    <span class="impact-strip__value">3</span>
+                                    <span class="impact-strip__label">countries expanded to</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /.timeline -->
+            </div>
+        </section>
+
+        <!-- Strategic Decisions Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Strategic Decisions</span>
+                    <h2 class="section__title">Key Design Decisions</h2>
+                </div>
+
+                <div class="cards-grid cards-grid--three">
+                    <div class="content-card">
+                        <div class="content-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="content-card__title">
+                            <svg class="content-card__title-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Bottom Sheet Cart
+                        </h3>
+                        <p class="content-card__text">
+                            I proposed using a bottom sheet as the shopping cart metaphor. It took <strong>2 months of iteration and discussion</strong> with the team to refine the approach. The pattern helped reduce accidental bill requests.
+                        </p>
+                    </div>
+                    <div class="content-card">
+                        <div class="content-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                            </svg>
+                        </div>
+                        <h3 class="content-card__title">
+                            <svg class="content-card__title-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Webapp Over App-Only
+                        </h3>
+                        <p class="content-card__text">
+                            Stakeholders wanted to keep everything in the native app. Research showed customers were reluctant to download an app just to order food, so I advocated for a parallel web experience. The webapp saw roughly <strong>4x the adoption</strong> of the native app.
+                        </p>
+                    </div>
+                    <div class="content-card">
+                        <div class="content-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                            </svg>
+                        </div>
+                        <h3 class="content-card__title">
+                            <svg class="content-card__title-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                            </svg>
+                            Saying No to Full Migration
+                        </h3>
+                        <p class="content-card__text">
+                            After the webapp succeeded, stakeholders wanted to move everything to web. I shared concerns: the app included touchpoints that nudged users toward loyalty programs, special products, and deeper engagement. Removing those risked losing the path to long-term retention.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mentorship Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__label">Mentorship</span>
+                    <h2 class="section__title">The Cook Who Became a Designer</h2>
+                </div>
+
+                <div class="mentorship-card">
+                    <div class="mentorship-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                        </svg>
+                    </div>
+                    <div class="mentorship-card__content">
+                        <h3>From Kitchen to Design</h3>
+                        <p>
+                            One of the restaurants that used Zoniz had a cook who'd taken a UX design course. He reached out, curious about the work. I started mentoring him—and his perspective as someone who actually worked in a kitchen was invaluable.
+                        </p>
+                        <p>
+                            We ended up designing a lot of the kitchen UI together. He knew things I never would have thought to ask about: where tablets get mounted, how greasy hands interact with screens, what information you need at a glance when orders are backing up.
+                        </p>
+                        <div style="margin: 1.5rem 0;">
+                            <div class="chapter__visual" style="margin-bottom: 1.25rem;">
+                                <img src="Kitchen Display  - final.png" alt="Kitchen Display — Final design" style="width: 100%; border-radius: 12px; cursor: pointer;" onclick="openLightbox(this.src, this.alt, 'kitchen', 0)">
+                            </div>
+                            <p style="font-size: 0.875rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 0.75rem;">Explorations we worked through together:</p>
+                            <div class="exploration-grid">
+                                <div class="exploration-card" onclick="openLightbox('Kitchen display - exploration 1.png', 'Kitchen display — Exploration 1', 'kitchen', 1)">
+                                    <img src="Kitchen display - exploration 1.png" alt="Kitchen display — Exploration 1">
+                                    <div class="exploration-card__label">Exploration 1</div>
+                                </div>
+                                <div class="exploration-card" onclick="openLightbox('Kitchen display - exploration 2.png', 'Kitchen display — Exploration 2', 'kitchen', 2)">
+                                    <img src="Kitchen display - exploration 2.png" alt="Kitchen display — Exploration 2">
+                                    <div class="exploration-card__label">Exploration 2</div>
+                                </div>
+                                <div class="exploration-card" onclick="openLightbox('Kitchen display - smaller cards exploration.png', 'Kitchen display — Smaller cards exploration', 'kitchen', 3)">
+                                    <img src="Kitchen display - smaller cards exploration.png" alt="Kitchen display — Smaller cards exploration">
+                                    <div class="exploration-card__label">Smaller cards</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mentorship-card__outcome">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 20px; height: 20px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                            </svg>
+                            He went on to become a UX designer.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learnings Section -->
+        <section class="section" style="border: none; padding-top: 0;">
+            <div class="container">
+                <div class="learnings">
+                    <h2 class="learnings__title">What I Learned</h2>
+                    <div class="learnings__grid">
+                        <div class="learning-item">
+                            <div class="learning-item__number">1</div>
+                            <h4 class="learning-item__title">Prototype fidelity matters—but real-world testing matters more</h4>
+                            <p class="learning-item__text">Even perfect Figma prototypes can't predict everything. The tablet interface looked great in Figma and failed in a real restaurant. I had to learn to test in context, not just in the design tool.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">2</div>
+                            <h4 class="learning-item__title">Working as a user is invaluable</h4>
+                            <p class="learning-item__text">I learned more in one dinner service as a waiter than I did in 10 interviews. Nothing beats experiencing your own design in the wild.</p>
+                        </div>
+                        <div class="learning-item">
+                            <div class="learning-item__number">3</div>
+                            <h4 class="learning-item__title">Mistakes are the best teacher</h4>
+                            <p class="learning-item__text">I made a lot of them. Being the only designer meant there was no one to catch things before they shipped. That was stressful, but each mistake taught me something I still carry with me.</p>
+                        </div>
+                    </div>
+
+                    <div class="learnings__failure" style="margin-top: 2.5rem; padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border); border-left: 4px solid #e6a817;">
+                        <h3 style="margin: 0 0 0.75rem 0; font-size: 1.1rem; color: var(--color-text-primary);">What didn't work</h3>
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.6;">Early on, I designed the staff app with too many customization options—thinking flexibility was always good. Restaurants got confused by settings they didn't understand. Some configured things incorrectly and blamed the app when orders went wrong. I stripped out most options and made smart defaults instead. Sometimes the best UX is fewer choices, not more.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-section__title">Let's work together</h2>
+                <p class="cta-section__text">I'm always open to discussing new opportunities and interesting projects.</p>
+                <a href="mailto:vladvamos98@gmail.com" class="btn btn--primary">
+                    Get in touch
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Other Projects -->
+        <section class="projects-section">
+            <div class="container">
+                <h2 class="projects-section__title">My other projects</h2>
+                <div class="projects-grid">
+                    <a href="../Silobreaker/silobreaker-case-study-v3.html" class="project-card">
+                        <div class="project-card__image" >
+                            <img src="../Silobreaker/Silobreaker Dashboard.png" alt="Silobreaker Dashboard">
+                        </div>
+                        <div class="project-card__content">
+                            <div class="project-card__name">Silobreaker</div>
+                            <p class="project-card__description">Building a design system for a 20-year-old intelligence platform. 2x faster design, 100% adoption.</p>
+                        </div>
+                    </a>
+                    <a href="../Brightbid/brightbid-case-study.html" class="project-card">
+                        <div class="project-card__image" >
+                            <img src="../Brightbid/Dashboard.png" alt="BrightBid Dashboard">
+                        </div>
+                        <div class="project-card__content">
+                            <div class="project-card__name">BrightBid</div>
+                            <p class="project-card__description">Redesigned an AI ad platform. ~35% fewer support tickets, prototype used 8+ months for sales.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">
+                Designed and built by <a href="../index.html" class="footer__link">Vlad Vamos</a> &middot; 2026
+            </p>
+        </div>
+    </footer>
+
+    <script src="../scripts/theme.js"></script>
+    <script src="../scripts/lightbox-anim.js"></script>
+    <script>
+        // Carousel state
+        const carouselState = {
+            'carousel-cms': 0
+        };
+
+        // Lightbox state
+        let currentGallery = null;
+        let currentGalleryIndex = 0;
+        let zoomLevel = 1;
+        let baseDims = { w: 0, h: 0 };
+
+        // Define galleries for lightbox navigation
+        const galleries = {
+            'before-after': [
+                { src: 'Zoniz Client - before.png', alt: 'Customer app — Before redesign' },
+                { src: 'Zoniz Client - after.png', alt: 'Customer app — After redesign' }
+            ],
+            'waiter': [
+                { src: 'Waiter app - old.png', alt: 'Waiter app — Old design' },
+                { src: 'Waiter app - new.png', alt: 'Waiter app — New design' }
+            ],
+            'pos': [
+                { src: 'POS UI - old.png', alt: 'POS Interface — Old design' },
+                { src: 'POS UI - new.png', alt: 'POS Interface — New design' }
+            ],
+            'cms': [
+                { src: 'CMS - Dashboard.png', alt: 'CMS Dashboard overview' },
+                { src: 'CMS - Recipe manager.png', alt: 'CMS Recipe manager' },
+                { src: 'cms - Stock management.png', alt: 'CMS Stock management' }
+            ],
+            'kitchen': [
+                { src: 'Kitchen Display  - final.png', alt: 'Kitchen Display — Final design' },
+                { src: 'Kitchen display - exploration 1.png', alt: 'Kitchen display — Exploration 1' },
+                { src: 'Kitchen display - exploration 2.png', alt: 'Kitchen display — Exploration 2' },
+                { src: 'Kitchen display - smaller cards exploration.png', alt: 'Kitchen display — Smaller cards exploration' }
+            ]
+        };
+
+        // Move carousel
+        function moveCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const track = carousel.querySelector('.carousel__track');
+            const slides = carousel.querySelectorAll('.carousel__slide');
+            const dots = carousel.querySelectorAll('.carousel__dot');
+            const label = carousel.querySelector('.carousel__label');
+            const totalSlides = slides.length;
+
+            carouselState[carouselId] = (carouselState[carouselId] + direction + totalSlides) % totalSlides;
+            updateCarousel(carouselId, track, dots, label, totalSlides);
+        }
+
+        // Go to specific slide
+        function goToSlide(carouselId, index) {
+            const carousel = document.getElementById(carouselId);
+            const track = carousel.querySelector('.carousel__track');
+            const dots = carousel.querySelectorAll('.carousel__dot');
+            const label = carousel.querySelector('.carousel__label');
+            const totalSlides = carousel.querySelectorAll('.carousel__slide').length;
+
+            carouselState[carouselId] = index;
+            updateCarousel(carouselId, track, dots, label, totalSlides);
+        }
+
+        // Update carousel display
+        function updateCarousel(carouselId, track, dots, label, totalSlides) {
+            const currentIndex = carouselState[carouselId];
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('carousel__dot--active', i === currentIndex);
+            });
+
+            label.textContent = `${currentIndex + 1} / ${totalSlides}`;
+        }
+
+        // Lightbox functions
+        function openLightbox(src, alt, galleryName, index) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+
+            resetZoom();
+            img.onload = function() {
+                baseDims.w = this.clientWidth;
+                baseDims.h = this.clientHeight;
+            };
+            img.src = src;
+            img.alt = alt;
+            caption.textContent = alt;
+
+            // Set up gallery navigation if gallery is provided
+            if (galleryName && galleries[galleryName]) {
+                currentGallery = galleryName;
+                currentGalleryIndex = index || 0;
+                const gallery = galleries[galleryName];
+
+                prevBtn.classList.add('lightbox__nav--visible');
+                nextBtn.classList.add('lightbox__nav--visible');
+                counter.textContent = `${currentGalleryIndex + 1} / ${gallery.length}`;
+                counter.style.display = 'block';
+            } else {
+                currentGallery = null;
+                currentGalleryIndex = 0;
+                prevBtn.classList.remove('lightbox__nav--visible');
+                nextBtn.classList.remove('lightbox__nav--visible');
+                counter.style.display = 'none';
+            }
+
+            lightbox.classList.add('lightbox--active');
+            document.body.style.overflow = 'hidden';
+            lightboxAnimateIn();
+        }
+
+        function closeLightbox() {
+            resetZoom();
+            lightboxAnimateOut();
+        }
+
+        function navigateLightbox(direction) {
+            if (!currentGallery || !galleries[currentGallery]) return;
+            resetZoom();
+
+            const gallery = galleries[currentGallery];
+            currentGalleryIndex = (currentGalleryIndex + direction + gallery.length) % gallery.length;
+
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+
+            img.src = gallery[currentGalleryIndex].src;
+            img.alt = gallery[currentGalleryIndex].alt;
+            caption.textContent = gallery[currentGalleryIndex].alt;
+            counter.textContent = `${currentGalleryIndex + 1} / ${gallery.length}`;
+        }
+
+        function zoomLightbox(delta) {
+            zoomLevel = Math.max(1, Math.min(3, +(zoomLevel + delta).toFixed(1)));
+            const img = document.getElementById('lightbox-img');
+            const lightbox = document.getElementById('lightbox');
+
+            if (zoomLevel === 1) {
+                lightbox.classList.remove('lightbox--zoomed');
+                img.style.width = '';
+            } else {
+                lightbox.classList.add('lightbox--zoomed');
+                img.style.width = baseDims.w * zoomLevel + 'px';
+            }
+
+            document.getElementById('zoom-level').textContent = Math.round(zoomLevel * 100) + '%';
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            const img = document.getElementById('lightbox-img');
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('lightbox--zoomed');
+            img.style.width = '';
+            document.getElementById('zoom-level').textContent = '100%';
+        }
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox on Escape, navigate with arrow keys
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('lightbox--active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    navigateLightbox(-1);
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    navigateLightbox(1);
+                }
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
