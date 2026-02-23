@@ -59,68 +59,225 @@
             background: linear-gradient(135deg, #06B6D4 0%, #0EA5E9 100%);
         }
 
-        /* Before / After Comparison */
-        .before-after {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 0 0 24px 0;
-        }
-
-        .before-after:first-of-type {
+        /* Before / After Carousel */
+        .ba-carousel {
             margin-top: 40px;
-        }
-
-        .before-after__panel {
-            border-radius: var(--radius-lg);
-            overflow: hidden;
             background: var(--color-card);
             border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
-        .before-after__label {
+        .ba-carousel__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .ba-carousel__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .ba-carousel__controls {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 16px;
+        }
+
+        .ba-carousel__counter {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .ba-carousel__btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .ba-carousel__btn:hover {
+            background: var(--color-grey50);
+            border-color: var(--color-text-secondary);
+        }
+
+        .ba-carousel__btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .ba-carousel__viewport {
+            overflow: hidden;
+        }
+
+        .ba-carousel__track {
+            display: flex;
+            transition: transform 0.4s ease;
+        }
+
+        .ba-carousel__slide {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .ba-carousel__panel {
+            position: relative;
+        }
+
+        .ba-carousel__label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
             font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        .before-after__label--before {
+        .ba-carousel__label--before {
             color: var(--color-text-secondary);
         }
 
-        .before-after__label--after {
+        .ba-carousel__label--after {
             color: var(--color-accent);
         }
 
-        .before-after__label-dot {
+        .ba-carousel__label-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
         }
 
-        .before-after__label--before .before-after__label-dot {
+        .ba-carousel__label--before .ba-carousel__label-dot {
             background: var(--color-text-secondary);
             opacity: 0.4;
         }
 
-        .before-after__label--after .before-after__label-dot {
+        .ba-carousel__label--after .ba-carousel__label-dot {
             background: var(--color-accent);
         }
 
-        .before-after__image {
+        .ba-carousel__image {
             width: 100%;
             display: block;
             cursor: pointer;
         }
 
+        .ba-carousel__dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+        }
+
+        .ba-carousel__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            background: var(--color-border);
+            cursor: pointer;
+            transition: background 0.2s;
+            padding: 0;
+        }
+
+        .ba-carousel__dot--active {
+            background: var(--color-accent);
+        }
+
         @media (max-width: 700px) {
-            .before-after {
+            .ba-carousel__slide {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        /* Expandable feature sections */
+        .feature-section {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-section__summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 24px;
+            cursor: pointer;
+            list-style: none;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .feature-section__summary::-webkit-details-marker { display: none; }
+        .feature-section__summary:hover { background: var(--color-grey50); }
+
+        .feature-section__chevron {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: var(--color-accent);
+            transition: transform 0.2s;
+        }
+
+        details[open] > .feature-section__summary .feature-section__chevron {
+            transform: rotate(90deg);
+        }
+
+        .feature-section__headline {
+            flex: 1;
+        }
+
+        .feature-section__title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin: 0;
+        }
+
+        .feature-section__subtitle {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin: 4px 0 0;
+        }
+
+        .feature-section__body {
+            padding: 0 24px 24px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .feature-section__body .feature-showcase {
+            border: none;
+            padding: 24px 0 0;
+            margin: 0;
+            box-shadow: none;
+        }
+
+        @media (max-width: 700px) {
+            .feature-section__summary {
+                padding: 16px 18px;
+            }
+            .feature-section__body {
+                padding: 0 18px 18px;
             }
         }
     </style>
@@ -301,12 +458,10 @@
                         </h3>
                         <ul class="content-card__list">
                             <li>Built and maintain the Ymir design system</li>
-                            <li>Designed key features: customizable nav rail, unified search, dashboards v2</li>
-                            <li>Created changelogs and documentation</li>
-                            <li>Shared Figma techniques with the design team</li>
-                            <li>Built AI prototyping tool using Claude Code + Figma MCP</li>
-                            <li>Collaborated with 15 frontend developers on implementation</li>
-                            <li>Worked with leadership to demonstrate value through prototypes</li>
+                            <li>Designed nav rail, unified search, and dashboards v2</li>
+                            <li>Built AI prototyping tool (Claude Code + Figma MCP)</li>
+                            <li>Collaborated with 15 frontend developers</li>
+                            <li>Built the business case for design system investment</li>
                         </ul>
                     </div>
                     <div class="content-card">
@@ -317,12 +472,10 @@
                             Team
                         </h3>
                         <ul class="content-card__list">
-                            <li>3 designers</li>
-                            <li>~15 frontend developers</li>
-                            <li>Multiple backend teams</li>
+                            <li>3 designers, ~15 frontend developers</li>
                             <li>Product managers and Product Director</li>
                             <li>Stakeholders: CTO, CEO</li>
-                            <li>Customer Success team (key research partners)</li>
+                            <li>Customer Success team (research partners)</li>
                         </ul>
                     </div>
                     <div class="content-card">
@@ -333,11 +486,10 @@
                             Challenges
                         </h3>
                         <ul class="content-card__list">
-                            <li>Engineering-first culture where design was an afterthought</li>
-                            <li>Outdated UI from a different decade</li>
-                            <li>No cohesive design system—custom components for everything</li>
-                            <li>Frontend bottleneck—only specialized devs could build UI</li>
-                            <li>Leadership needed convincing that change was worth the investment</li>
+                            <li>Engineering-driven culture with deep technical focus</li>
+                            <li>UI evolved organically over 20 years — no unified vision</li>
+                            <li>No design system; custom components for each feature</li>
+                            <li>Building the case for investment took time and evidence</li>
                         </ul>
                     </div>
                     <div class="content-card">
@@ -348,11 +500,10 @@
                             Opportunities
                         </h3>
                         <ul class="content-card__list">
-                            <li>C-suite eventually aligned on the need for change</li>
-                            <li>Got 3 months of dedicated design system time</li>
-                            <li>Developers were excited about the new direction</li>
-                            <li>Angular had Material 3 implementation to build on</li>
-                            <li>Strong relationship with CS team for user feedback</li>
+                            <li>C-suite aligned on the need for change</li>
+                            <li>3 months of dedicated design system time</li>
+                            <li>Developers excited about the new direction</li>
+                            <li>Angular's Material 3 as a foundation to build on</li>
                         </ul>
                     </div>
                 </div>
@@ -370,86 +521,86 @@
                     </p>
                 </div>
 
-                <!-- Before / After Comparisons -->
-                <div class="before-after">
-                    <div class="before-after__panel">
-                        <div class="before-after__label before-after__label--before">
-                            <span class="before-after__label-dot"></span>
-                            Before — Dashboard
+                <!-- Before / After Carousel -->
+                <div class="ba-carousel" id="ba-carousel">
+                    <div class="ba-carousel__header">
+                        <span class="ba-carousel__title" id="ba-carousel-title">Dashboard</span>
+                        <div class="ba-carousel__controls">
+                            <button class="ba-carousel__btn" onclick="moveBaCarousel(-1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <span class="ba-carousel__counter" id="ba-carousel-counter">1 / 3</span>
+                            <button class="ba-carousel__btn" onclick="moveBaCarousel(1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
                         </div>
-                        <img src="Dashboards old.png" alt="Silobreaker old dashboard" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-dashboard', 0)">
                     </div>
-                    <div class="before-after__panel">
-                        <div class="before-after__label before-after__label--after">
-                            <span class="before-after__label-dot"></span>
-                            After — Dashboard
+                    <div class="ba-carousel__viewport">
+                        <div class="ba-carousel__track" id="ba-carousel-track">
+                            <div class="ba-carousel__slide">
+                                <div class="ba-carousel__panel">
+                                    <div class="ba-carousel__label ba-carousel__label--before">
+                                        <span class="ba-carousel__label-dot"></span>
+                                        Before
+                                    </div>
+                                    <img src="Dashboards old.png" alt="Silobreaker old dashboard" class="ba-carousel__image" onclick="openLightbox(this.src, this.alt)">
+                                </div>
+                                <div class="ba-carousel__panel">
+                                    <div class="ba-carousel__label ba-carousel__label--after">
+                                        <span class="ba-carousel__label-dot"></span>
+                                        After
+                                    </div>
+                                    <img src="Dashboards new.png" alt="Silobreaker new dashboard" class="ba-carousel__image" onclick="openLightbox(this.src, this.alt)">
+                                </div>
+                            </div>
+                            <div class="ba-carousel__slide">
+                                <div class="ba-carousel__panel">
+                                    <div class="ba-carousel__label ba-carousel__label--before">
+                                        <span class="ba-carousel__label-dot"></span>
+                                        Before
+                                    </div>
+                                    <img src="Tickets before.png" alt="Silobreaker old tickets view" class="ba-carousel__image" onclick="openLightbox(this.src, this.alt)">
+                                </div>
+                                <div class="ba-carousel__panel">
+                                    <div class="ba-carousel__label ba-carousel__label--after">
+                                        <span class="ba-carousel__label-dot"></span>
+                                        After
+                                    </div>
+                                    <img src="Tickets new.png" alt="Silobreaker new tickets view" class="ba-carousel__image" onclick="openLightbox(this.src, this.alt)">
+                                </div>
+                            </div>
+                            <div class="ba-carousel__slide">
+                                <div class="ba-carousel__panel">
+                                    <div class="ba-carousel__label ba-carousel__label--before">
+                                        <span class="ba-carousel__label-dot"></span>
+                                        Before
+                                    </div>
+                                    <img src="Entity old.png" alt="Silobreaker old entity view" class="ba-carousel__image" onclick="openLightbox(this.src, this.alt)">
+                                </div>
+                                <div class="ba-carousel__panel">
+                                    <div class="ba-carousel__label ba-carousel__label--after">
+                                        <span class="ba-carousel__label-dot"></span>
+                                        After
+                                    </div>
+                                    <img src="Entity New.png" alt="Silobreaker new entity view" class="ba-carousel__image" onclick="openLightbox(this.src, this.alt)">
+                                </div>
+                            </div>
                         </div>
-                        <img src="Dashboards new.png" alt="Silobreaker new dashboard" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-dashboard', 1)">
+                    </div>
+                    <div class="ba-carousel__dots">
+                        <button class="ba-carousel__dot ba-carousel__dot--active" onclick="goToBaSlide(0)"></button>
+                        <button class="ba-carousel__dot" onclick="goToBaSlide(1)"></button>
+                        <button class="ba-carousel__dot" onclick="goToBaSlide(2)"></button>
                     </div>
                 </div>
 
-                <div class="before-after">
-                    <div class="before-after__panel">
-                        <div class="before-after__label before-after__label--before">
-                            <span class="before-after__label-dot"></span>
-                            Before — Tickets
-                        </div>
-                        <img src="Tickets before.png" alt="Silobreaker old tickets view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-tickets', 0)">
-                    </div>
-                    <div class="before-after__panel">
-                        <div class="before-after__label before-after__label--after">
-                            <span class="before-after__label-dot"></span>
-                            After — Tickets
-                        </div>
-                        <img src="Tickets new.png" alt="Silobreaker new tickets view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-tickets', 1)">
-                    </div>
-                </div>
-
-                <div class="before-after">
-                    <div class="before-after__panel">
-                        <div class="before-after__label before-after__label--before">
-                            <span class="before-after__label-dot"></span>
-                            Before — Entity view
-                        </div>
-                        <img src="Entity old.png" alt="Silobreaker old entity view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-entity', 0)">
-                    </div>
-                    <div class="before-after__panel">
-                        <div class="before-after__label before-after__label--after">
-                            <span class="before-after__label-dot"></span>
-                            After — Entity view
-                        </div>
-                        <img src="Entity New.png" alt="Silobreaker new entity view" class="before-after__image" onclick="openLightbox(this.src, this.alt, 'ba-entity', 1)">
-                    </div>
-                </div>
-
-                <div class="quote-block">
-                    <p class="quote-block__text">Now our product looks like it was made in this decade.</p>
-                    <p class="quote-block__author">— Product Director, after seeing my initial concepts</p>
-                </div>
-
-                <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">Exploration: 5-6 major iterations</h3>
+                <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">How we got there</h3>
                 <p style="font-size: 16px; color: var(--color-text-secondary); margin-bottom: 24px; line-height: 1.7;">
-                    We didn't jump to a solution. We explored IBM Carbon, Google Material, Moon Design, and more. For each direction, we mocked up typical Silobreaker pages and showed them to 10-15 stakeholders.
-                </p>
-
-                <!-- Exploration Grid with Images -->
-                <div class="exploration-grid">
-                    <div class="exploration-card" onclick="openLightbox('Dashboards Exploration Carbon.png', 'IBM Carbon exploration', 'exploration', 0)">
-                        <img src="Dashboards Exploration Carbon.png" alt="IBM Carbon exploration">
-                        <div class="exploration-card__label">IBM Carbon</div>
-                    </div>
-                    <div class="exploration-card" onclick="openLightbox('Dashboards Exploration Moon.png', 'Moon Design exploration', 'exploration', 1)">
-                        <img src="Dashboards Exploration Moon.png" alt="Moon Design exploration">
-                        <div class="exploration-card__label">Moon Design</div>
-                    </div>
-                    <div class="exploration-card" onclick="openLightbox('Dashbaord Material.png', 'Material 3 exploration', 'exploration', 2)">
-                        <img src="Dashbaord Material.png" alt="Material 3 exploration">
-                        <div class="exploration-card__label">Material 3</div>
-                    </div>
-                </div>
-
-                <p style="font-size: 16px; color: var(--color-text-secondary); margin: 24px 0; line-height: 1.7;">
-                    We landed on <strong style="color: var(--color-text);">Material 3</strong> as our foundation. I also added a level below atoms—<strong style="color: var(--color-text);">"Quarks"</strong>—for typography and colors. Subatomic particles.
+                    We evaluated several design system foundations—testing each direction against real Silobreaker pages and gathering feedback from 10-15 stakeholders. We landed on <strong style="color: var(--color-text);">Material 3</strong> as our foundation. I also added a level below atoms—<strong style="color: var(--color-text);">"Quarks"</strong>—for typography and colors. Subatomic particles.
                 </p>
 
                 <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">Key decisions</h3>
@@ -470,7 +621,7 @@
                         <span class="battle-card__title">Building executive buy-in</span>
                     </div>
                     <p class="battle-card__text">
-                        The CTO was initially skeptical about the ROI of a design system. Rather than arguing, I focused on showing prototypes that demonstrated the difference. With support from PMs and developers, the team built a shared understanding of the value.
+                        The ROI of a design system wasn't immediately obvious to everyone. Rather than arguing the case in theory, I focused on showing prototypes that demonstrated the difference. With support from PMs and developers, the team built a shared understanding of the value.
                     </p>
                 </div>
 
@@ -493,6 +644,36 @@
                     </div>
                 </div>
 
+                <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">What clients said</h3>
+                <p style="font-size: 16px; color: var(--color-text-secondary); margin-bottom: 24px; line-height: 1.7;">
+                    Feedback collected by the Customer Success team from clients who received the redesigned platform. All quotes anonymized for confidentiality.
+                </p>
+
+                <div class="quote-block">
+                    <p class="quote-block__text">Whoever wrote the new UI needs a pay raise — most UI's are horrible and this is great. This is how you apply finished packaging to finished intelligence.</p>
+                    <p class="quote-block__author">— Prospective client, during an evaluation</p>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-block__text">I've played around with a lot of different CTI vendors — this is the best one I've seen in terms of widget development, clickability, and user-friendliness.</p>
+                    <p class="quote-block__author">— A consulting partner, after building dashboards with no training from the CS team</p>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-block__text">I'm a big fan. I love the snap to grid. This makes me want to redo my dashboards.</p>
+                    <p class="quote-block__author">— Existing client, on the new dashboard system</p>
+                </div>
+
+                <div class="battle-card" style="margin-top: 24px;">
+                    <div class="battle-card__header">
+                        <span class="battle-card__icon">&#128200;</span>
+                        <span class="battle-card__title">Re-engaging an at-risk customer</span>
+                    </div>
+                    <p class="battle-card__text">
+                        One client had been on the CS team's radar for over a year due to internal restructuring and declining engagement. After previewing features I designed — geofencing capabilities and dark mode on dashboards — their team re-engaged. Their threat intelligence manager began building a business case for expanded investment, saying "this shouldn't be hard to sell internally." When we showed dark mode, they said: "I was going to say geofencing was my new favourite feature, but then you mentioned this."
+                    </p>
+                </div>
+
                 <h3 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px;">What didn't work</h3>
                 <p style="font-size: 16px; color: var(--color-text-secondary); margin-bottom: 24px; line-height: 1.7;">
                     My first documentation approach failed. I created detailed Target Process pages that nobody read. Developers told me they wanted answers in context, not separate docs. So I pivoted to inline documentation in Figma—usage went up immediately. Lesson learned: meet people where they work.
@@ -504,195 +685,239 @@
         <section class="section">
             <div class="container">
                 <div class="section__header">
-                    <span class="section__label">02 / Features</span>
-                    <h2 class="section__title">Strategic feature improvements</h2>
+                    <span class="section__label">02 / Features & Innovation</span>
+                    <h2 class="section__title">What I built beyond the design system</h2>
                     <p class="section__description">
-                        Beyond the design system, I worked on several features that improved the platform experience for power users and security analysts.
+                        Each of these started as a distinct business problem. Click to explore.
                     </p>
                 </div>
 
                 <!-- Nav Rail Feature -->
-                <div class="feature-showcase">
-                    <div class="feature__content">
-                        <h3>Customizable Nav Rail</h3>
-                        <p>
-                            <strong>Problem:</strong> Our nav rail had ~10 items (guidelines say 5-7 max). One label was so long it forced the font size down.
-                        </p>
-                        <p>
-                            <strong>Solution:</strong> A nav rail that expands on hover to reveal full labels. Users can customize which items appear vs. go to a "More items" panel. Smart defaults based on analytics.
-                        </p>
-                        <div>
-                            <span class="feature__tag">Expandable on hover</span>
-                            <span class="feature__tag">Customizable</span>
-                            <span class="feature__tag">Analytics-driven defaults</span>
+                <details class="feature-section">
+                    <summary class="feature-section__summary">
+                        <svg class="feature-section__chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                        <div class="feature-section__headline">
+                            <div class="feature-section__title">Customizable Nav Rail</div>
+                            <div class="feature-section__subtitle">Surfaced hidden features, reduced clutter. Clients called it "really smooth" and "very sleek."</div>
+                        </div>
+                    </summary>
+                    <div class="feature-section__body">
+                        <div class="feature-showcase">
+                            <div class="feature__content">
+                                <p>
+                                    <strong>Problem:</strong> Our nav rail had ~10 items (guidelines say 5-7 max). One label was so long it forced the font size down.
+                                </p>
+                                <p>
+                                    <strong>Solution:</strong> A nav rail that expands on hover to reveal full labels. Users can customize which items appear vs. go to a "More items" panel. Smart defaults based on analytics.
+                                </p>
+                                <p style="font-size: 14px; color: var(--color-text-secondary); font-style: italic; margin-top: 8px;">
+                                    Client feedback: "Really smooth to use, makes the UI look very sleek, and highlights features like Geolists and Webhooks that could have easily been missed before."
+                                </p>
+                                <div>
+                                    <span class="feature__tag">Expandable on hover</span>
+                                    <span class="feature__tag">Customizable</span>
+                                    <span class="feature__tag">Analytics-driven defaults</span>
+                                </div>
+                            </div>
+                            <div class="feature__visual feature__visual--image">
+                                <img
+                                    src="Custom navrail.png"
+                                    alt="Customizable Nav Rail - collapsed and expanded states"
+                                    class="feature__visual-img"
+                                    onclick="openLightbox(this.src, this.alt)"
+                                >
+                            </div>
                         </div>
                     </div>
-                    <div class="feature__visual feature__visual--image">
-                        <img
-                            src="Custom navrail.png"
-                            alt="Customizable Nav Rail - collapsed and expanded states"
-                            class="feature__visual-img"
-                            onclick="openLightbox(this.src, this.alt)"
-                        >
-                    </div>
-                </div>
+                </details>
 
-                <!-- Unified Search Feature with Carousel -->
-                <div class="feature-showcase">
-                    <div class="feature__content">
-                        <h3>Unified Search</h3>
-                        <p>
-                            <strong>Problem:</strong> Power users were writing long queries but couldn't see the entire query. They resorted to Notepad.
-                        </p>
-                        <p>
-                            <strong>Solution:</strong> A search panel (like Slack's Cmd+K) with growing query field, recent assets from all types, preview functionality, and a surfaced power-user feature: Fuzzy Asset Finder.
-                        </p>
-                        <p style="font-size: 14px; color: var(--color-text-secondary);">
-                            ~2 months of work. 12 end users surveyed. 5 CS team interviews.
-                        </p>
-                    </div>
-                    <div class="carousel" id="carousel-search">
-                        <span class="carousel__label">1 / 3</span>
-                        <div class="carousel__track">
-                            <div class="carousel__slide">
-                                <img src="Unified Search 1.png" alt="Unified Search - Initial state" onclick="openLightbox(this.src, this.alt, 'unified-search', 0)">
+                <!-- Unified Search Feature -->
+                <details class="feature-section">
+                    <summary class="feature-section__summary">
+                        <svg class="feature-section__chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                        <div class="feature-section__headline">
+                            <div class="feature-section__title">Unified Search</div>
+                            <div class="feature-section__subtitle">Replaced Notepad workarounds with an expandable search panel. 2 months, 12 users surveyed.</div>
+                        </div>
+                    </summary>
+                    <div class="feature-section__body">
+                        <div class="feature-showcase">
+                            <div class="feature__content">
+                                <p>
+                                    <strong>Problem:</strong> Power users were writing long queries but couldn't see the entire query. They resorted to Notepad.
+                                </p>
+                                <p>
+                                    <strong>Solution:</strong> A search panel (like Slack's Cmd+K) with growing query field, recent assets from all types, preview functionality, and a surfaced power-user feature: Fuzzy Asset Finder.
+                                </p>
+                                <p style="font-size: 14px; color: var(--color-text-secondary); font-style: italic; margin-top: 8px;">
+                                    Client feedback: A long-time user said they loved that long queries now automatically expand the query box — a huge improvement over having to use Notepad to write complex queries.
+                                </p>
+                                <p style="font-size: 14px; color: var(--color-text-secondary);">
+                                    ~2 months of work. 12 end users surveyed. 5 CS team interviews.
+                                </p>
                             </div>
-                            <div class="carousel__slide">
-                                <img src="Unified Search 2.png" alt="Unified Search - Search results" onclick="openLightbox(this.src, this.alt, 'unified-search', 1)">
-                            </div>
-                            <div class="carousel__slide">
-                                <img src="Unified Search 3.png" alt="Unified Search - Preview panel" onclick="openLightbox(this.src, this.alt, 'unified-search', 2)">
+                            <div class="carousel" id="carousel-search">
+                                <span class="carousel__label">1 / 3</span>
+                                <div class="carousel__track">
+                                    <div class="carousel__slide">
+                                        <img src="Unified Search 1.png" alt="Unified Search - Initial state" onclick="openLightbox(this.src, this.alt, 'unified-search', 0)">
+                                    </div>
+                                    <div class="carousel__slide">
+                                        <img src="Unified Search 2.png" alt="Unified Search - Search results" onclick="openLightbox(this.src, this.alt, 'unified-search', 1)">
+                                    </div>
+                                    <div class="carousel__slide">
+                                        <img src="Unified Search 3.png" alt="Unified Search - Preview panel" onclick="openLightbox(this.src, this.alt, 'unified-search', 2)">
+                                    </div>
+                                </div>
+                                <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-search', -1)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                    </svg>
+                                </button>
+                                <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-search', 1)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                </button>
+                                <div class="carousel__nav">
+                                    <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-search', 0)"></button>
+                                    <button class="carousel__dot" onclick="goToSlide('carousel-search', 1)"></button>
+                                    <button class="carousel__dot" onclick="goToSlide('carousel-search', 2)"></button>
+                                </div>
                             </div>
                         </div>
-                        <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-search', -1)">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                            </svg>
-                        </button>
-                        <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-search', 1)">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </button>
-                        <div class="carousel__nav">
-                            <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-search', 0)"></button>
-                            <button class="carousel__dot" onclick="goToSlide('carousel-search', 1)"></button>
-                            <button class="carousel__dot" onclick="goToSlide('carousel-search', 2)"></button>
-                        </div>
                     </div>
-                </div>
+                </details>
 
                 <!-- Dashboards Feature -->
-                <div class="feature-showcase">
-                    <div class="feature__content">
-                        <h3>Dashboards v2</h3>
-                        <p>
-                            <strong>Problem:</strong> Users couldn't customize widget sizes. No preview of settings. Placement was hard to control.
-                        </p>
-                        <p>
-                            <strong>Solution:</strong> Resizable widgets with live preview, smart widget behavior (documents adjust based on size), edit mode, FAB for adding widgets.
-                        </p>
-                        <div class="battle-card" style="margin-top: 16px;">
-                            <div class="battle-card__header">
-                                <span class="battle-card__icon">&#9876;</span>
-                                <span class="battle-card__title">The Widget Battle</span>
-                            </div>
-                            <p class="battle-card__text">
-                                Developers initially said widgets couldn't change documents based on size. After 3 months of collaboration, we found a solution that worked.
-                            </p>
+                <details class="feature-section">
+                    <summary class="feature-section__summary">
+                        <svg class="feature-section__chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                        <div class="feature-section__headline">
+                            <div class="feature-section__title">Dashboards v2</div>
+                            <div class="feature-section__subtitle">Resizable widgets with live preview. A partner built dashboards with zero training. 2x faster setup.</div>
                         </div>
-                    </div>
-                    <div class="feature__visual feature__visual--image">
-                        <img
-                            src="Dashboards v2 image.png"
-                            alt="Dashboards v2 - Resizable widgets with edit mode"
-                            class="feature__visual-img"
-                            onclick="openLightbox(this.src, this.alt)"
-                        >
-                    </div>
-                </div>
-
-                <div class="stats-row">
-                    <div class="stat-item">
-                        <div class="stat-item__value stat-item__value--accent">2x</div>
-                        <div class="stat-item__label">Faster widget setup</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-item__value stat-item__value--accent">100%</div>
-                        <div class="stat-item__label">"Would not go back"</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- AI Tool Section -->
-        <section class="section">
-            <div class="container">
-                <div class="section__header">
-                    <span class="section__label">03 / Innovation</span>
-                    <h2 class="section__title">AI Prototyping Tool</h2>
-                    <p class="section__description">
-                        Figma prototypes are useful, but they had limitations for intricate interactions. With a Claude Pro license, I explored building a working frontend prototype tool—a React implementation of Silobreaker's UI for testing concepts.
-                    </p>
-                </div>
-
-                <div class="feature-showcase">
-                    <div class="feature__content">
-                        <h3>From Figma to working prototype</h3>
-                        <p>
-                            I used Claude Code and Figma MCP extensively. I could link frames to Claude and it would understand 80-90% of what I wanted. I even went frame-by-frame in Figma to illustrate interactions.
-                        </p>
-                        <p>
-                            My design lead helped me set up the React project. I then shared what I'd learned with our other senior designer, and we now use it as a shared tool.
-                        </p>
-                    </div>
-                    <!-- AI Tool Carousel -->
-                    <div class="carousel" id="carousel-ai">
-                        <span class="carousel__label">1 / 3</span>
-                        <div class="carousel__track">
-                            <div class="carousel__slide">
-                                <img src="Figma MCP.png" alt="Figma MCP - Design frames linked to Claude" onclick="openLightbox(this.src, this.alt, 'ai-tool', 0)">
+                    </summary>
+                    <div class="feature-section__body">
+                        <div class="feature-showcase">
+                            <div class="feature__content">
+                                <p>
+                                    <strong>Problem:</strong> Users couldn't customize widget sizes. No preview of settings. Placement was hard to control.
+                                </p>
+                                <p>
+                                    <strong>Solution:</strong> Resizable widgets with live preview, smart widget behavior (documents adjust based on size), edit mode, FAB for adding widgets.
+                                </p>
+                                <p style="font-size: 14px; color: var(--color-text-secondary); font-style: italic; margin-top: 8px;">
+                                    A consulting partner built out operational and tactical dashboards with no training — and called it "the best in terms of widget development, clickability, and user-friendliness" across multiple CTI vendors they'd evaluated.
+                                </p>
+                                <div class="battle-card" style="margin-top: 16px;">
+                                    <div class="battle-card__header">
+                                        <span class="battle-card__icon">&#9876;</span>
+                                        <span class="battle-card__title">The Widget Battle</span>
+                                    </div>
+                                    <p class="battle-card__text">
+                                        Developers initially said widgets couldn't change documents based on size. After 3 months of collaboration, we found a solution that worked.
+                                    </p>
+                                </div>
                             </div>
-                            <div class="carousel__slide">
-                                <img src="Claude prototype at 14.21.11.png" alt="Claude prototype - AI-generated code" onclick="openLightbox(this.src, this.alt, 'ai-tool', 1)">
-                            </div>
-                            <div class="carousel__slide">
-                                <img src="Local host.png" alt="Local host - Working React prototype" onclick="openLightbox(this.src, this.alt, 'ai-tool', 2)">
+                            <div class="feature__visual feature__visual--image">
+                                <img
+                                    src="Dashboards v2 image.png"
+                                    alt="Dashboards v2 - Resizable widgets with edit mode"
+                                    class="feature__visual-img"
+                                    onclick="openLightbox(this.src, this.alt)"
+                                >
                             </div>
                         </div>
-                        <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-ai', -1)">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                            </svg>
-                        </button>
-                        <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-ai', 1)">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </button>
-                        <div class="carousel__nav">
-                            <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-ai', 0)"></button>
-                            <button class="carousel__dot" onclick="goToSlide('carousel-ai', 1)"></button>
-                            <button class="carousel__dot" onclick="goToSlide('carousel-ai', 2)"></button>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <div class="stat-item__value stat-item__value--accent">2x</div>
+                                <div class="stat-item__label">Faster widget setup</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-item__value stat-item__value--accent">100%</div>
+                                <div class="stat-item__label">"Would not go back"</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </details>
 
-                <div class="quote-block">
-                    <p class="quote-block__text">This is impressive and scary.</p>
-                    <p class="quote-block__author">— Developer feedback on the AI prototyping tool</p>
-                </div>
-
-                <div class="stats-row">
-                    <div class="stat-item">
-                        <div class="stat-item__value stat-item__value--accent">60%</div>
-                        <div class="stat-item__label">Faster prototyping (estimated)</div>
+                <!-- AI Prototyping Tool -->
+                <details class="feature-section">
+                    <summary class="feature-section__summary">
+                        <svg class="feature-section__chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                        <div class="feature-section__headline">
+                            <div class="feature-section__title">AI Prototyping Tool</div>
+                            <div class="feature-section__subtitle">Built a working React prototype using Claude Code + Figma MCP. ~60% faster prototyping, now a shared team tool.</div>
+                        </div>
+                    </summary>
+                    <div class="feature-section__body">
+                        <div class="feature-showcase">
+                            <div class="feature__content">
+                                <p>
+                                    Figma prototypes are useful, but they had limitations for intricate interactions. With a Claude Pro license, I explored building a working frontend prototype tool — a React implementation of Silobreaker's UI for testing concepts.
+                                </p>
+                                <p>
+                                    I used Claude Code and Figma MCP extensively. I could link frames to Claude and it would understand 80-90% of what I wanted. I even went frame-by-frame in Figma to illustrate interactions.
+                                </p>
+                                <p>
+                                    My design lead helped me set up the React project. I then shared what I'd learned with our other senior designer, and we now use it as a shared tool.
+                                </p>
+                            </div>
+                            <div class="carousel" id="carousel-ai">
+                                <span class="carousel__label">1 / 3</span>
+                                <div class="carousel__track">
+                                    <div class="carousel__slide">
+                                        <img src="Figma MCP.png" alt="Figma MCP - Design frames linked to Claude" onclick="openLightbox(this.src, this.alt, 'ai-tool', 0)">
+                                    </div>
+                                    <div class="carousel__slide">
+                                        <img src="Claude prototype at 14.21.11.png" alt="Claude prototype - AI-generated code" onclick="openLightbox(this.src, this.alt, 'ai-tool', 1)">
+                                    </div>
+                                    <div class="carousel__slide">
+                                        <img src="Local host.png" alt="Local host - Working React prototype" onclick="openLightbox(this.src, this.alt, 'ai-tool', 2)">
+                                    </div>
+                                </div>
+                                <button class="carousel__btn carousel__btn--prev" onclick="moveCarousel('carousel-ai', -1)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                    </svg>
+                                </button>
+                                <button class="carousel__btn carousel__btn--next" onclick="moveCarousel('carousel-ai', 1)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                </button>
+                                <div class="carousel__nav">
+                                    <button class="carousel__dot carousel__dot--active" onclick="goToSlide('carousel-ai', 0)"></button>
+                                    <button class="carousel__dot" onclick="goToSlide('carousel-ai', 1)"></button>
+                                    <button class="carousel__dot" onclick="goToSlide('carousel-ai', 2)"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quote-block">
+                            <p class="quote-block__text">This is impressive and scary.</p>
+                            <p class="quote-block__author">— Developer feedback on the AI prototyping tool</p>
+                        </div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <div class="stat-item__value stat-item__value--accent">60%</div>
+                                <div class="stat-item__label">Faster prototyping (estimated)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-item__value stat-item__value--accent">4</div>
+                                <div class="stat-item__label">Versions to get it right</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-item__value stat-item__value--accent">4</div>
-                        <div class="stat-item__label">Versions to get it right</div>
-                    </div>
-                </div>
+                </details>
             </div>
         </section>
 
@@ -705,27 +930,17 @@
                         <div class="learning-item">
                             <div class="learning-item__number">1</div>
                             <h4 class="learning-item__title">Show, don't tell</h4>
-                            <p class="learning-item__text">Arguments alone rarely work. Prototypes that demonstrate the difference are more effective. Seeing is believing.</p>
+                            <p class="learning-item__text">Arguments alone rarely convince. Prototypes that demonstrate the difference do. Seeing is believing.</p>
                         </div>
                         <div class="learning-item">
                             <div class="learning-item__number">2</div>
                             <h4 class="learning-item__title">Frame design as a business problem</h4>
-                            <p class="learning-item__text">"This will look better" doesn't work. "This will save developer time and reduce cost" works.</p>
+                            <p class="learning-item__text">"This will look better" doesn't land. "This will save developer time and reduce cost" does.</p>
                         </div>
                         <div class="learning-item">
                             <div class="learning-item__number">3</div>
-                            <h4 class="learning-item__title">Pick your battles (and build alliances)</h4>
-                            <p class="learning-item__text">When advocating for change, having support from PMs, the Product Director, and developers made a difference. Alignment across roles helps ideas move forward.</p>
-                        </div>
-                        <div class="learning-item">
-                            <div class="learning-item__number">4</div>
-                            <h4 class="learning-item__title">Be patient but persistent</h4>
-                            <p class="learning-item__text">The widget resizing feature took 3 months of iteration. Staying committed to the goal helped us find a solution.</p>
-                        </div>
-                        <div class="learning-item">
-                            <div class="learning-item__number">5</div>
-                            <h4 class="learning-item__title">Explore ideas in your own time</h4>
-                            <p class="learning-item__text">The AI prototyping tool started as a personal experiment. Once it showed value, the team adopted it.</p>
+                            <h4 class="learning-item__title">Build alliances across roles</h4>
+                            <p class="learning-item__text">Having PMs, developers, and the Product Director aligned made the difference when advocating for change.</p>
                         </div>
                     </div>
                 </div>
@@ -786,6 +1001,28 @@
     <script src="../scripts/theme.js"></script>
     <script src="../scripts/lightbox-anim.js"></script>
     <script>
+        // Before/After carousel
+        const baSlides = ['Dashboard', 'Tickets', 'Entity view'];
+        let baIndex = 0;
+
+        function moveBaCarousel(dir) {
+            baIndex = (baIndex + dir + baSlides.length) % baSlides.length;
+            updateBaCarousel();
+        }
+
+        function goToBaSlide(index) {
+            baIndex = index;
+            updateBaCarousel();
+        }
+
+        function updateBaCarousel() {
+            document.getElementById('ba-carousel-track').style.transform = `translateX(-${baIndex * 100}%)`;
+            document.getElementById('ba-carousel-title').textContent = baSlides[baIndex];
+            document.getElementById('ba-carousel-counter').textContent = `${baIndex + 1} / ${baSlides.length}`;
+            const dots = document.querySelectorAll('.ba-carousel__dot');
+            dots.forEach((dot, i) => dot.classList.toggle('ba-carousel__dot--active', i === baIndex));
+        }
+
         // Carousel state
         const carouselState = {
             'carousel-search': 0,
@@ -794,11 +1031,6 @@
 
         // Define galleries for lightbox navigation
         const galleries = {
-            'exploration': [
-                { src: 'Dashboards Exploration Carbon.png', alt: 'IBM Carbon exploration' },
-                { src: 'Dashboards Exploration Moon.png', alt: 'Moon Design exploration' },
-                { src: 'Dashbaord Material.png', alt: 'Material 3 exploration' }
-            ],
             'unified-search': [
                 { src: 'Unified Search 1.png', alt: 'Unified Search - Initial state' },
                 { src: 'Unified Search 2.png', alt: 'Unified Search - Search results' },
