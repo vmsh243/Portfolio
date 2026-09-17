@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found | Vlad Vamos</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/Portfolio/V.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Styles are inline, not from main.css: GitHub Pages serves this file for
+         any missing path, so it must not depend on a relative asset resolving. -->
+    <style>
+        :root {
+            --color-bg: #f8f9fc;
+            --color-text: #1a1a2e;
+            --color-text-secondary: #5a5a6a;
+            --color-accent: #6366f1;
+            --color-border: rgba(0, 0, 0, 0.08);
+            --color-bg-gradient-start: rgba(200, 180, 240, 0.3);
+            --color-bg-gradient-end: rgba(240, 245, 255, 1);
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.35);
+            --shadow-card: 0px 4px 24px 0px rgba(100, 100, 140, 0.12);
+            --row-hover: rgba(99, 102, 241, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --color-bg: #0f0f14;
+            --color-text: #f0f0f5;
+            --color-text-secondary: #a0a0b0;
+            --color-accent: #818cf8;
+            --color-border: rgba(255, 255, 255, 0.08);
+            --color-bg-gradient-start: rgba(40, 20, 60, 0.5);
+            --color-bg-gradient-end: rgba(10, 10, 15, 1);
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --shadow-card: 0px 4px 24px 0px rgba(0, 0, 0, 0.4);
+            --row-hover: rgba(255, 255, 255, 0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --color-bg: #0f0f14;
+                --color-text: #f0f0f5;
+                --color-text-secondary: #a0a0b0;
+                --color-accent: #818cf8;
+                --color-border: rgba(255, 255, 255, 0.08);
+                --color-bg-gradient-start: rgba(40, 20, 60, 0.5);
+                --color-bg-gradient-end: rgba(10, 10, 15, 1);
+                --glass-bg: rgba(255, 255, 255, 0.07);
+                --glass-border: rgba(255, 255, 255, 0.12);
+                --shadow-card: 0px 4px 24px 0px rgba(0, 0, 0, 0.4);
+                --row-hover: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--color-text);
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%,
+                    var(--color-bg-gradient-start) 0%,
+                    var(--color-bg-gradient-end) 100%),
+                var(--color-bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 560px;
+            padding: 40px;
+            border-radius: 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        .code {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+            margin: 0 0 12px;
+        }
+
+        h1 {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin: 0 0 12px;
+        }
+
+        .lede {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text-secondary);
+            margin: 0 0 28px;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--color-border);
+        }
+
+        nav a {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 14px 12px;
+            margin: 0 -12px;
+            border-bottom: 1px solid var(--color-border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.18s ease;
+        }
+
+        nav a:hover,
+        nav a:focus-visible { background: var(--row-hover); }
+
+        nav a:focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 2px;
+        }
+
+        .name {
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .what {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--color-text-secondary);
+        }
+
+        .home {
+            display: inline-block;
+            margin-top: 28px;
+            padding: 11px 20px;
+            border-radius: 100px;
+            background: var(--color-accent);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .home:focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 16px; }
+            .card { padding: 28px 22px; border-radius: 20px; }
+            h1 { font-size: 25px; }
+            nav a { flex-direction: column; gap: 3px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card { animation: none; }
+            nav a { transition: none; }
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <p class="code">404</p>
+        <h1>That page has moved</h1>
+        <p class="lede">
+            I rebuilt this portfolio in September 2026 and some URLs changed. The work is all still here.
+        </p>
+
+        <nav>
+            <a href="/Portfolio/mimir.html">
+                <span class="name">Mimir</span>
+                <span class="what">Silobreaker's AI analyst. Sole designer.</span>
+            </a>
+            <a href="/Portfolio/exec-layer-preview.html">
+                <span class="name">Executive Layer</span>
+                <span class="what">Native iOS and Android prototype, directed with AI coding agents.</span>
+            </a>
+            <a href="/Portfolio/silobreaker.html">
+                <span class="name">Silobreaker</span>
+                <span class="what">Platform redesign and the Ymir design system.</span>
+            </a>
+            <a href="/Portfolio/brightbid.html">
+                <span class="name">BrightBid</span>
+                <span class="what">Campaign creation and trust in automated bidding.</span>
+            </a>
+            <a href="/Portfolio/zoniz.html">
+                <span class="name">Zoniz</span>
+                <span class="what">Restaurant floor and kitchen apps.</span>
+            </a>
+            <a href="/Portfolio/cv/vlad-vamos-cv.html">
+                <span class="name">CV</span>
+                <span class="what">One page, printable.</span>
+            </a>
+        </nav>
+
+        <a class="home" href="/Portfolio/">Start from the top</a>
+    </main>
+
+    <script data-goatcounter="https://vladdie243.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
